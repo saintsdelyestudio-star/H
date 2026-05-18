@@ -228,6 +228,11 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
     <label class="nl" for="r-team"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4" stroke-width="1.8"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2M16 3.13a4 4 0 010 7.75M21 21v-2a4 4 0 00-3-3.87"/></svg>Equipo</label>
     <label class="nl" for="r-collab"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>Colaboradores</label>
     <label class="nl" for="r-mood"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>Moodboard</label>
+    <div class="ngl">IA</div>
+    <label class="nl" for="r-ai">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
+      Asistente IA
+    </label>
   </div>
 
   <div class="sb-bottom">
@@ -530,7 +535,6 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
   <div class="psub">Referencias visuales e inspiración creativa de Delyé</div>
   <div class="tb">
     <button class="btn bw" id="mf-all" onclick="setMF('all',this)">Todo</button>
-    <button class="btn bo2" id="mf-shooting" onclick="setMF('shooting',this)">Shooting</button>
     <button class="btn bo2" id="mf-palette" onclick="setMF('palette',this)">Paleta</button>
     <button class="btn bo2" id="mf-ref" onclick="setMF('ref',this)">Referencia</button>
     <button class="btn bo2" id="mf-prod" onclick="setMF('prod',this)">Producto</button>
@@ -538,6 +542,58 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
     <button class="btn bw" style="margin-left:auto" onclick="alert('Disponible en producción')">+ Añadir</button>
   </div>
   <div class="mg" id="mgrid"></div>
+</div>
+
+<!-- ─── AI ASSISTANT ─── -->
+<div id="p-ai" class="page">
+  <div style="margin-bottom:28px">
+    <div class="ptitle">Asistente IA — Delyé</div>
+    <div class="psub">Pregúntame cualquier cosa sobre tu tienda</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 340px;gap:16px;height:calc(100vh - 160px)">
+    <!-- Chat -->
+    <div class="card" style="display:flex;flex-direction:column;padding:0;overflow:hidden;height:100%">
+      <div id="ai-msgs" style="flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px">
+        <div class="ai-msg ai-bot">
+          <div class="ai-avatar">D</div>
+          <div class="ai-bubble">Hola Aimar, soy el asistente de Delyé. Tengo acceso a todos los datos de tu tienda: inventario, ventas, pedidos, clientes y más. ¿En qué te puedo ayudar?</div>
+        </div>
+      </div>
+      <div style="padding:14px;border-top:1px solid var(--border);display:flex;gap:10px">
+        <input id="ai-input" class="search" style="flex:1;width:auto" placeholder="Ej: ¿Cuál es el stock del Varsity Black?  /  ¿Cuánto hemos vendido?  /  ¿Qué talla vende más?" onkeydown="if(event.key==='Enter')aiSend()" />
+        <button class="btn bw" onclick="aiSend()">Enviar</button>
+      </div>
+    </div>
+
+    <!-- Quick questions sidebar -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="card" style="padding:16px">
+        <div class="ct">Preguntas rápidas</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <button class="btn bo2" style="text-align:left;justify-content:flex-start;font-size:12px" onclick="aiAsk('¿Cuánto stock tenemos en total?')">¿Cuánto stock tenemos?</button>
+          <button class="btn bo2" style="text-align:left;justify-content:flex-start;font-size:12px" onclick="aiAsk('¿Qué productos están oversold?')">¿Qué está oversold?</button>
+          <button class="btn bo2" style="text-align:left;justify-content:flex-start;font-size:12px" onclick="aiAsk('¿Cuáles son las ventas totales?')">Ventas totales</button>
+          <button class="btn bo2" style="text-align:left;justify-content:flex-start;font-size:12px" onclick="aiAsk('¿Quiénes son nuestros mejores clientes?')">Mejores clientes</button>
+          <button class="btn bo2" style="text-align:left;justify-content:flex-start;font-size:12px" onclick="aiAsk('¿Qué producto tiene más stock?')">Producto con más stock</button>
+          <button class="btn bo2" style="text-align:left;justify-content:flex-start;font-size:12px" onclick="aiAsk('¿Cuántos pedidos tenemos en total?')">Total pedidos</button>
+          <button class="btn bo2" style="text-align:left;justify-content:flex-start;font-size:12px" onclick="aiAsk('Dame un resumen del negocio')">Resumen del negocio</button>
+          <button class="btn bo2" style="text-align:left;justify-content:flex-start;font-size:12px" onclick="aiAsk('¿Qué talla vende más?')">¿Qué talla vende más?</button>
+        </div>
+      </div>
+      <div class="card" style="padding:16px">
+        <div class="ct">Datos cargados</div>
+        <div style="font-size:12px;color:var(--text2);line-height:2">
+          <div>✓ 25 productos activos</div>
+          <div>✓ 730 pedidos totales</div>
+          <div>✓ €114,591 en ventas</div>
+          <div>✓ 13 clientes top</div>
+          <div>✓ Stock por talla</div>
+          <div>✓ Finanzas mensuales</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 </main>
@@ -750,21 +806,16 @@ function renderFinTable(){
 // MOODBOARD
 // ═══════════════════════
 var moodItems=[
-  // Real Delyé shooting photos
-  {cat:'shooting', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/foto_coleccion.jpg?v=1753209479',    title:'Shooting — Made for Difference', text:'Fondo cemento, iluminación editorial. Dirección de arte: Nil Cortés.'},
-  {cat:'shooting', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard1.png?v=1755725671',        title:'SS26 Campaign — Look 01',       text:'White tee + monogram shorts. Clean studio aesthetic.'},
-  {cat:'shooting', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard6.png?v=1755725671',        title:'SS26 Campaign — Look 02',       text:'Hoodie Monogram. Heavyweight cotton, embossed logo.'},
-  {cat:'shooting', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard10.png?v=1755725722',       title:'SS26 Campaign — Look 03',       text:'Editorial doble. Two models, Barcelona chair.'},
-  {cat:'shooting', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard12.png?v=1755725722',       title:'Lookbook — Archive Drop',       text:'Drop masivo Nov 2025 — 440 pedidos, €62,998.'},
-  {cat:'shooting', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard3.png?v=1755725671',        title:'Product Shot — SS26',           text:'Clean product photography on model. Studio setup.'},
-  // Palette & Ideas
-  {cat:'palette', bg:'#0a0a0a', h:75, title:'Paleta Principal — Delyé', text:'Negro profundo, gris cemento, blanco roto. Base visual de toda la marca.'},
-  {cat:'palette', bg:'#c9a96e', h:55, title:'Acento Dorado',             text:'Usado en etiquetas Saints Delyé Studio y detalles premium.'},
-  {cat:'palette', bg:'#1a1510', h:60, title:'Warm Neutral AW26',         text:'Earth tones para la próxima colección. Beige tostado, terracota.'},
-  {cat:'ref',     bg:'#111',    h:65, title:'Referencia — Denim Drop',   text:'Raw denim minimalista. Cortes estructurados, lavados oscuros.'},
-  {cat:'prod',    bg:'#131313', h:80, title:'Varsity Jacket Black',       text:'Best seller histórico. €13,595 en ventas · 116 pedidos.'},
-  {cat:'idea',    bg:'#0f0f0f', h:60, title:'Drop AW26 Concept',         text:'"Made for Difference V3" — Nuevas siluetas. Launch Q4 2026.'},
-  {cat:'idea',    bg:'#0d0d0d', h:55, title:'Mystery Box Premium AW26',  text:'Mystery Box €99+ con piezas exclusivas. Formato exitoso SS26.'},
+  {cat:'palette', bg:'#0a0a0a',       h:80, title:'Negro Profundo',           text:'Base visual de toda la marca. Deep black #0a0a0a.'},
+  {cat:'palette', bg:'#f5f5f0',       h:80, title:'Off White',                text:'Contraste principal. Etiquetas, textos destacados.'},
+  {cat:'palette', bg:'#c9a96e',       h:80, title:'Gold Accent',              text:'Detalles premium. Monogramas, bordados.'},
+  {cat:'palette', bg:'#3d3d3d',       h:80, title:'Gris Cemento',             text:'Tono medio. Fondos de shooting, tags.'},
+  {cat:'ref',     bg:'#111',          h:65, title:'Referencia — Denim Drop',  text:'Raw denim minimalista. Cortes estructurados.'},
+  {cat:'ref',     bg:'#0d0d0d',       h:65, title:'Referencia — Varsity',     text:'College aesthetic reinterpretado. Premium feel.'},
+  {cat:'prod',    bg:'#161616',       h:70, title:'Hoodie Monogram',          text:'Best seller constante. Stock M:18, L:1.'},
+  {cat:'prod',    bg:'#111',          h:70, title:'Shorts Earth',             text:'Mayor stock activo. M:21, S:9, L:6.'},
+  {cat:'idea',    bg:'#0a0a0a',       h:60, title:'Drop AW26',               text:'Colección otoño/invierno 2026. En planificación.'},
+  {cat:'idea',    bg:'#0f0f0f',       h:60, title:'Made for Difference V3',  text:'Continuación de la serie más exitosa.'},
 ];
 function setMF(cat,el){
   document.querySelectorAll('#p-mood .tb .btn').forEach(function(b){b.className='btn bo2';});
@@ -772,11 +823,9 @@ function setMF(cat,el){
 }
 function renderMood(cat){
   var items=cat==='all'?moodItems:moodItems.filter(function(i){return i.cat===cat;});
-  var cl={'palette':'Paleta','ref':'Referencia','prod':'Producto','idea':'Idea','shooting':'Shooting'};
+  var cl={'palette':'Paleta','ref':'Referencia','prod':'Producto','idea':'Idea'};
   document.getElementById('mgrid').innerHTML=items.map(function(it){
-    var visual=it.img
-      ?'<img src="'+it.img+'" alt="'+it.title+'" loading="lazy" style="width:100%;display:block;aspect-ratio:3/4;object-fit:cover;object-position:top center;filter:brightness(.8) saturate(.9);transition:filter .3s ease,transform .4s ease;" onmouseover="this.style.filter=\'brightness(.95) saturate(1)\';this.style.transform=\'scale(1.03)\'" onmouseout="this.style.filter=\'brightness(.8) saturate(.9)\';this.style.transform=\'scale(1)\'" />'
-      :'<div style="height:'+it.h+'px;background:'+it.bg+';transition:filter .3s"></div>';
+    var visual='<div style="height:'+it.h+'px;background:'+it.bg+';transition:filter .3s"></div>';
     return '<div class="mc" style="overflow:hidden">'
       +visual
       +'<div style="padding:12px">'
@@ -857,6 +906,101 @@ setTimeout(initCharts,100);
 document.querySelectorAll('input[name="p"]').forEach(function(r){
   r.addEventListener('change',function(){setTimeout(initCharts,50);});
 });
+
+// ═══════════════════════
+// AI ASSISTANT
+// ═══════════════════════
+function aiAsk(q){document.getElementById('ai-input').value=q;aiSend();}
+function aiSend(){
+  var input=document.getElementById('ai-input');
+  var q=input.value.trim();if(!q)return;
+  input.value='';
+  var msgs=document.getElementById('ai-msgs');
+  msgs.innerHTML+='<div class="ai-msg ai-user"><div class="ai-avatar">A</div><div class="ai-bubble">'+q+'</div></div>';
+  setTimeout(function(){
+    var r=aiRespond(q.toLowerCase());
+    msgs.innerHTML+='<div class="ai-msg ai-bot"><div class="ai-avatar">D</div><div class="ai-bubble">'+r+'</div></div>';
+    msgs.scrollTop=msgs.scrollHeight;
+  },400);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+function aiRespond(q){
+  // Stock total
+  if(q.match(/stock.*total|cuánto.*stock|total.*stock|inventario.*total/)){
+    var positiveItems=products.filter(function(p){return (p.xs+p.s+p.m+p.l+p.xl)>0;});
+    var totalUnits=positiveItems.reduce(function(acc,p){return acc+(p.xs+p.s+p.m+p.l+p.xl);},0);
+    var oversold=products.filter(function(p){return (p.xs+p.s+p.m+p.l+p.xl)<0;}).length;
+    return 'Stock total disponible: '+totalUnits+' unidades en '+positiveItems.length+' productos.\n\nProductos con stock positivo:\n'+positiveItems.map(function(p){var t=p.xs+p.s+p.m+p.l+p.xl;return '· '+p.n+': '+t+' uds';}).join('\n')+'\n\nAdemás hay '+oversold+' productos con inventario negativo (oversold).';
+  }
+  // Oversold
+  if(q.match(/oversold|negativo|agotado|sin stock/)){
+    var ov=products.filter(function(p){return (p.xs+p.s+p.m+p.l+p.xl)<0;});
+    return 'Hay '+ov.length+' productos con inventario negativo (oversold):\n\n'+ov.map(function(p){var t=p.xs+p.s+p.m+p.l+p.xl;return '· '+p.n+' ('+p.p+'): '+t+' uds\n  XS:'+p.xs+' S:'+p.s+' M:'+p.m+' L:'+p.l+' XL:'+p.xl;}).join('\n\n');
+  }
+  // Ventas totales
+  if(q.match(/ventas|ingresos|revenue|dinero|facturado|ganado/)){
+    return 'Ventas totales de delye.co: €114,591\n\nDesglose mensual:\n· Nov 2025: €66,500 (pico máximo — 422 pedidos)\n· Feb 2026: €20,745 (241 pedidos)\n· Dic 2025: €14,800 (154 pedidos)\n· Mar 2026: €7,920 (57 pedidos)\n· Abr 2026: €2,517 (25 pedidos)\n· May 2026: €1,109 (11 pedidos)\n\nAOV medio: €141.62\nTotal pedidos: 730';
+  }
+  // Pedidos
+  if(q.match(/pedidos|orders/)){
+    return 'Total pedidos: 730\n\nDistribución:\n· Nov 2025: 422 pedidos (mayor mes)\n· Feb 2026: 241 pedidos\n· Dic 2025: 154 pedidos\n· Mar 2026: 57 pedidos\n· Abr 2026: 25 pedidos\n· May 2026: 11 pedidos\n\nAOV (valor medio por pedido): €141.62';
+  }
+  // Clientes
+  if(q.match(/clientes|customers|compradores/)){
+    return 'Top clientes por gasto total:\n\n1. Turbo Turbo — €2,231 (2 pedidos)\n2. Héctor Fort — €962 (1 pedido)\n3. Marc Bernal — €609 (2 pedidos)\n4. Pedro Fernández — €367 (1 pedido)\n5. Landry Farrér — €367 (2 pedidos)\n6. Arabat Noor — €337 (1 pedido)\n7. Marc Guiu — €337 (1 pedido)\n8. Nil Cortés Gómez — €309 (2 pedidos)\n9. Jeremy Klinghammer — €218 (1 pedido)\n10. Jovvany Díaz Wilson — €218 (1 pedido)';
+  }
+  // Producto con más stock
+  if(q.match(/más stock|mayor stock|más unidades/)){
+    var sorted=products.slice().sort(function(a,b){return (b.xs+b.s+b.m+b.l+b.xl)-(a.xs+a.s+a.m+a.l+a.xl);});
+    var top=sorted.slice(0,5);
+    return 'Productos con más stock disponible:\n\n'+top.map(function(p,i){var t=p.xs+p.s+p.m+p.l+p.xl;return (i+1)+'. '+p.n+': '+t+' uds\n   XS:'+p.xs+' S:'+p.s+' M:'+p.m+' L:'+p.l+' XL:'+p.xl;}).join('\n\n');
+  }
+  // Varsity
+  if(q.match(/varsity/)){
+    var vb=products.find(function(p){return p.n.toLowerCase().indexOf('varsity black')>-1;});
+    var vg=products.find(function(p){return p.n.toLowerCase().indexOf('varsity jacket green')>-1;});
+    var vc=products.find(function(p){return p.n.toLowerCase().indexOf('varsity jacket cream')>-1;});
+    var res='Varsity Jacket Black (€129) — OVERSOLD\nXS:'+vb.xs+' S:'+vb.s+' M:'+vb.m+' L:'+vb.l+' XL:'+vb.xl+'\nTotal: '+(vb.xs+vb.s+vb.m+vb.l+vb.xl)+' uds';
+    if(vg)res+='\n\nVarsity Jacket Green (€129) — Sin stock (todo 0)';
+    if(vc)res+='\nVarsity Jacket Cream (€129) — Sin stock (todo 0)';
+    return res;
+  }
+  // Denim
+  if(q.match(/denim/)){
+    var denim=products.filter(function(p){return p.n.toLowerCase().indexOf('denim')>-1;});
+    return 'Productos Denim:\n\n'+denim.map(function(p){var t=p.xs+p.s+p.m+p.l+p.xl;return '· '+p.n+' ('+p.p+'): '+(t<0?t+' OVERSOLD':t===0?'Sin stock':t+' uds');}).join('\n');
+  }
+  // Hoodie
+  if(q.match(/hoodie/)){
+    var h=products.filter(function(p){return p.n.toLowerCase().indexOf('hoodie')>-1;});
+    return 'Hoodies:\n\n'+h.map(function(p){var t=p.xs+p.s+p.m+p.l+p.xl;return '· '+p.n+' ('+p.p+')\n  XS:'+p.xs+' S:'+p.s+' M:'+p.m+' L:'+p.l+' XL:'+p.xl+'\n  Total: '+(t<0?t+' (oversold)':t===0?'agotado':t+' uds');}).join('\n\n');
+  }
+  // Talla M / S / L
+  if(q.match(/talla.*m\b|talla media|más.*m\b/)||q.match(/qué talla/)){
+    var sizeS=products.reduce(function(a,p){return a+p.s;},0);
+    var sizeM=products.reduce(function(a,p){return a+p.m;},0);
+    var sizeL=products.reduce(function(a,p){return a+p.l;},0);
+    var sizeXS=products.reduce(function(a,p){return a+p.xs;},0);
+    var sizeXL=products.reduce(function(a,p){return a+p.xl;},0);
+    return 'Stock total por talla (activos):\n\nXS: '+sizeXS+' uds\nS: '+sizeS+' uds\nM: '+sizeM+' uds\nL: '+sizeL+' uds\nXL: '+sizeXL+' uds\n\nNota: los valores negativos son oversold. La talla M es claramente la más demandada históricamente, con mayor volumen de oversold.';
+  }
+  // Resumen
+  if(q.match(/resumen|overview|cómo va|qué tal/)){
+    return 'Resumen Delyé — Mayo 2026:\n\n💰 Ventas totales: €114,591\n📦 Pedidos: 730 (AOV €141.62)\n👥 Clientes: 700+\n📅 Mejor mes: Nov 2025 (€66,500)\n\nInventario:\n· Productos activos: 25\n· Con stock positivo: 8\n· Oversold: 10 productos\n· Sin stock (cero): 7\n\nTop productos por demanda:\n1. Denim Set Black (€62,998 · 388 pedidos)\n2. Varsity Jacket Black (oversold -123)\n3. Denim Jacket Black (oversold -85)\n\n⚠️ Prioridad: reponer Varsity Black, Denim Jacket Black y Denim Pants Black.';
+  }
+  // Shorts
+  if(q.match(/shorts|pantalon corto/)){
+    var sh=products.filter(function(p){return p.n.toLowerCase().indexOf('shorts')>-1;});
+    return 'Shorts:\n\n'+sh.map(function(p){var t=p.xs+p.s+p.m+p.l+p.xl;return '· '+p.n+' ('+p.p+')\n  XS:'+p.xs+' S:'+p.s+' M:'+p.m+' L:'+p.l+' XL:'+p.xl+'\n  Total: '+t+' uds';}).join('\n\n');
+  }
+  // Mystery box
+  if(q.match(/mystery|box/)){
+    var mb=products.filter(function(p){return p.n.toLowerCase().indexOf('mystery')>-1;});
+    return 'Mystery Boxes:\n\n'+mb.map(function(p){var t=p.xs+p.s+p.m+p.l+p.xl;return '· '+p.n+' ('+p.p+')\n  S:'+p.s+' M:'+p.m+' L:'+p.l+'\n  Stock neto: '+t+' uds';}).join('\n\n');
+  }
+  // Default
+  return 'No tengo esa información específica, pero puedo ayudarte con:\n\n· Stock por producto o talla\n· Ventas y pedidos totales\n· Clientes top\n· Estado de oversold\n· Resumen del negocio\n\n¿Quieres que busque algo concreto?';
+}
 </script>
 </body>
 </html>
