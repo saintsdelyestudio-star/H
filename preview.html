@@ -30,6 +30,7 @@ input[type="radio"].pr{display:none}
 #r-team:checked~.layout #p-team,
 #r-collab:checked~.layout #p-collab,
 #r-mood:checked~.layout #p-mood{display:block;animation:fu .28s ease}
+#r-ai:checked~.layout #p-ai{display:block;animation:fu .28s ease}
 @keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* Active nav label */
@@ -51,6 +52,8 @@ input[type="radio"].pr{display:none}
 #r-team:checked~.layout label[for="r-team"]::before,
 #r-collab:checked~.layout label[for="r-collab"]::before,
 #r-mood:checked~.layout label[for="r-mood"]::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:16px;background:var(--text);border-radius:0 3px 3px 0}
+#r-ai:checked~.layout label[for="r-ai"]{background:var(--s2);color:var(--text)}
+#r-ai:checked~.layout label[for="r-ai"]::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:16px;background:var(--text);border-radius:0 3px 3px 0}
 
 /* SIDEBAR */
 .sidebar{width:232px;min-width:232px;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:20px 0 14px;height:100vh;overflow-y:auto}
@@ -171,54 +174,14 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
 .dot-live{width:6px;height:6px;border-radius:50%;background:#95bf47;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* CAMPAIGN HERO STRIP */
-.hero-strip{
-  position:relative; width:100%; height:260px;
-  border-radius:14px; overflow:hidden;
-  margin-bottom:22px; display:flex; gap:2px;
-}
-.hero-strip .hs-panel{
-  flex:1; position:relative; overflow:hidden;
-  transition:flex .5s cubic-bezier(.4,0,.2,1);
-}
-.hero-strip .hs-panel:hover{ flex:1.8; }
-.hero-strip .hs-panel img{
-  width:100%; height:100%; object-fit:cover;
-  object-position:top center;
-  filter:brightness(.55) saturate(.9);
-  transition:filter .4s ease, transform .6s ease;
-}
-.hero-strip .hs-panel:hover img{ filter:brightness(.65) saturate(1); transform:scale(1.04); }
-.hero-strip .hs-overlay{
-  position:absolute; inset:0;
-  background:linear-gradient(to top, rgba(9,9,9,.85) 0%, transparent 60%);
-  pointer-events:none;
-}
-.hero-strip .hs-label{
-  position:absolute; bottom:14px; left:14px;
-  font-size:10px; font-weight:700; color:rgba(240,237,232,.5);
-  text-transform:uppercase; letter-spacing:.1em;
-  transition:color .3s;
-}
-.hero-strip .hs-panel:hover .hs-label{ color:var(--text); }
-.hero-strip .hs-badge{
-  position:absolute; bottom:14px; right:14px;
-  font-size:9.5px; color:var(--text); opacity:0;
-  transition:opacity .3s; letter-spacing:.06em;
-}
-.hero-strip .hs-panel:hover .hs-badge{ opacity:.6; }
+/* AI CHAT */
+.ai-msg{display:flex;gap:10px;align-items:flex-start}
+.ai-msg.ai-user{flex-direction:row-reverse}
+.ai-avatar{width:32px;height:32px;border-radius:50%;background:var(--s3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;color:var(--text)}
+.ai-msg.ai-bot .ai-avatar{background:var(--text);color:var(--bg)}
+.ai-bubble{background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:11px 14px;font-size:13px;line-height:1.6;color:var(--text);max-width:85%;white-space:pre-wrap}
+.ai-msg.ai-user .ai-bubble{background:var(--s3);border-color:var(--s3)}
 
-/* EDITORIAL WATERMARK */
-.hero-strip .hs-watermark{
-  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-  font-size:60px; font-weight:700; letter-spacing:-3px;
-  color:rgba(255,255,255,.06); pointer-events:none;
-  white-space:nowrap; font-style:italic;
-}
-
-/* PHOTO CARD in Moodboard */
-.mc-photo img{ width:100%; display:block; aspect-ratio:3/4; object-fit:cover; filter:brightness(.85) saturate(.9); transition:filter .3s; }
-.mc-photo:hover img{ filter:brightness(.95) saturate(1); }
 </style>
 </head>
 <body>
@@ -232,6 +195,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
 <input type="radio" class="pr" name="p" id="r-team" />
 <input type="radio" class="pr" name="p" id="r-collab" />
 <input type="radio" class="pr" name="p" id="r-mood" />
+<input type="radio" class="pr" name="p" id="r-ai" />
 
 <div class="layout">
 
@@ -282,35 +246,6 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
       <div style="font-size:12px;color:var(--text2)">Lunes 18 de mayo, 2026 · Delyé Admin</div>
     </div>
     <div class="shopify-live"><div class="dot-live"></div>Shopify Live · delye.co</div>
-  </div>
-
-  <!-- CAMPAIGN HERO STRIP — fotos reales de shooting Delyé -->
-  <div class="hero-strip">
-    <div class="hs-panel">
-      <img src="https://cdn.shopify.com/s/files/1/0908/6124/0705/files/foto_coleccion.jpg?v=1753209479" alt="Delyé Campaign" loading="lazy" />
-      <div class="hs-overlay"></div>
-      <div class="hs-label">Made for Difference</div>
-      <div class="hs-badge">delye.co</div>
-    </div>
-    <div class="hs-panel">
-      <img src="https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard6.png?v=1755725671" alt="Delyé Shooting" loading="lazy" />
-      <div class="hs-overlay"></div>
-      <div class="hs-label">SS26 Campaign</div>
-      <div class="hs-badge">Saints Delyé Studio</div>
-    </div>
-    <div class="hs-panel">
-      <img src="https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard1.png?v=1755725671" alt="Delyé Editorial" loading="lazy" />
-      <div class="hs-overlay"></div>
-      <div class="hs-label">Editorial</div>
-      <div class="hs-badge">Nil Cortés</div>
-    </div>
-    <div class="hs-panel">
-      <img src="https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard10.png?v=1755725722" alt="Delyé Lookbook" loading="lazy" />
-      <div class="hs-overlay"></div>
-      <div class="hs-label">Lookbook</div>
-      <div class="hs-badge">730 pedidos</div>
-    </div>
-    <div class="hs-watermark">SD</div>
   </div>
 
   <div class="metrics m4">
@@ -397,7 +332,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
     <div class="ptitle">Inventario</div>
     <span class="shopify-live"><div class="dot-live"></div>Shopify Sync</span>
   </div>
-  <div class="psub">Stock real de delye.co — 33 productos activos/archivados</div>
+  <div class="psub">Stock exacto por talla — datos en tiempo real de Shopify</div>
 
   <div class="metrics m4">
     <div class="metric"><div class="ml">Productos Activos</div><div class="mv">18</div><div class="mt" style="color:var(--text2)">En venta ahora</div></div>
@@ -672,14 +607,14 @@ var products = [
   {n:'Denim Pants Black',         p:'€89',  xs:0, s:-12,m:-28,l:-25,xl:-3, status:'ACTIVE'},
 ];
 
-// Real collections/drops with real Shopify CDN cover images
+// Real collections/drops
 var drops = [
-  {n:'Summer 2026 — Mystery Box', date:'May 2026',  status:'Live',      rev:'€1,109',   orders:11,  img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/collections/summerdrop.png',     desc:'Mystery Boxes verano activas'},
-  {n:'Made for Difference V2',    date:'Dic 2025',  status:'Activo',    rev:'€40,000+', orders:250, img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/collections/hy.png',             desc:'Denim, Varsity, Hoodies, Long Sleeves'},
-  {n:'The Archive',               date:'Oct 2025',  status:'Archivado', rev:'€62,998',  orders:440, img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard12.png?v=1755725722',           desc:'Drop masivo Nov 2025 — Tracksuits & Sets'},
-  {n:'Made for Difference V1',    date:'Oct 2025',  status:'Archivado', rev:'€9,013',   orders:58,  img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/collections/coleccion_04a62b2d-13b2-4a4b-8feb-9a2d376da8c6.png', desc:'Primera colección Delyé — Tracksuits'},
-  {n:'Best Sellers',              date:'Permanent', status:'Activo',    rev:'Ongoing',  orders:'-', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard3.png?v=1755725671',            desc:'6 productos seleccionados'},
-  {n:'Denim Collection',          date:'Dic 2025',  status:'Activo',    rev:'€27,000+', orders:200, img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard6_60aca24c-7a09-44b2-8e0c-704350b895a0.png', desc:'Denim Jacket, Pants, Sets en 3 colores'},
+  {n:'Summer 2026 — Mystery Box', date:'May 2026',  status:'Live',      rev:'€1,109',   orders:11,  bg:'linear-gradient(135deg,#1a1a2e,#16213e)', desc:'Mystery Boxes verano activas'},
+  {n:'Made for Difference V2',    date:'Dic 2025',  status:'Activo',    rev:'€40,000+', orders:250, bg:'linear-gradient(135deg,#0a0a0a,#1a1a1a)', desc:'Denim, Varsity, Hoodies, Long Sleeves'},
+  {n:'The Archive',               date:'Oct 2025',  status:'Archivado', rev:'€62,998',  orders:440, bg:'linear-gradient(135deg,#111,#222)',        desc:'Drop masivo Nov 2025 — Tracksuits & Sets'},
+  {n:'Made for Difference V1',    date:'Oct 2025',  status:'Archivado', rev:'€9,013',   orders:58,  bg:'linear-gradient(135deg,#0d0d0d,#181818)',  desc:'Primera colección Delyé — Tracksuits'},
+  {n:'Best Sellers',              date:'Permanent', status:'Activo',    rev:'Ongoing',  orders:'-', bg:'linear-gradient(135deg,#0f0f0f,#1c1c1c)',  desc:'6 productos seleccionados'},
+  {n:'Denim Collection',          date:'Dic 2025',  status:'Activo',    rev:'€27,000+', orders:200, bg:'linear-gradient(135deg,#0a0f1a,#111827)',  desc:'Denim Jacket, Pants, Sets en 3 colores'},
 ];
 
 // Real customers sorted by spend
@@ -748,7 +683,7 @@ function renderInv(){
     var lbl=neg?'Oversold':total===0?'Agotado':total<5?'Stock Bajo':'OK';
     var sfcls=neg?'sl':total===0?'sl':total<5?'sm':'sh';
     var pct=Math.min(100,Math.max(0,total/50*100));
-    function td(v){return '<td style="'+(v<0?'color:var(--red)':v===0?'color:var(--text3)':'')+'">'+v+'</td>';}
+    function td(v){return '<td style="'+(v<0?'color:var(--red)':v===0?'color:var(--text3)':'color:var(--green)')+'">'+v+'</td>';}
     return '<tr><td>'+p.n+'</td><td style="color:var(--text2)">'+p.p+'</td>'
       +td(p.xs)+td(p.s)+td(p.m)+td(p.l)+td(p.xl)
       +'<td><span style="font-weight:600;color:var(--text)">'+total+'</span>'
@@ -764,10 +699,8 @@ function renderDrops(){
   var sm={'Live':'bg','Activo':'bg','Archivado':'bgr'};
   document.getElementById('dropsgrid').innerHTML=drops.map(function(d){
     return '<div class="dc">'
-      +'<div style="height:140px;overflow:hidden;position:relative">'
-      +'<img src="'+d.img+'" alt="'+d.n+'" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:top center;filter:brightness(.7) saturate(.9);transition:filter .3s,transform .4s" onmouseover="this.style.filter=\'brightness(.85) saturate(1)\';this.style.transform=\'scale(1.04)\'" onmouseout="this.style.filter=\'brightness(.7) saturate(.9)\';this.style.transform=\'\'" />'
-      +'<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(9,9,9,.7) 0%,transparent 60%)"></div>'
-      +'<div style="position:absolute;bottom:10px;left:12px;font-size:16px;font-weight:700;letter-spacing:-.5px;color:rgba(240,237,232,.9);font-style:italic">'+d.n.split(' ').slice(0,2).join(' ')+'</div>'
+      +'<div style="height:140px;background:'+d.bg+';display:flex;align-items:center;justify-content:center">'
+      +'<div style="font-size:20px;font-weight:700;letter-spacing:-1px;color:rgba(240,237,232,.45);font-style:italic;text-align:center;padding:0 16px">'+d.n+'</div>'
       +'</div>'
       +'<div class="dbody">'
       +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">'
