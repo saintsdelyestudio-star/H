@@ -170,6 +170,55 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
 .shopify-live{display:inline-flex;align-items:center;gap:5px;font-size:10px;color:#95bf47;font-weight:600;padding:3px 9px;border-radius:99px;background:rgba(149,191,71,.1);border:1px solid rgba(149,191,71,.2)}
 .dot-live{width:6px;height:6px;border-radius:50%;background:#95bf47;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* CAMPAIGN HERO STRIP */
+.hero-strip{
+  position:relative; width:100%; height:260px;
+  border-radius:14px; overflow:hidden;
+  margin-bottom:22px; display:flex; gap:2px;
+}
+.hero-strip .hs-panel{
+  flex:1; position:relative; overflow:hidden;
+  transition:flex .5s cubic-bezier(.4,0,.2,1);
+}
+.hero-strip .hs-panel:hover{ flex:1.8; }
+.hero-strip .hs-panel img{
+  width:100%; height:100%; object-fit:cover;
+  object-position:top center;
+  filter:brightness(.55) saturate(.9);
+  transition:filter .4s ease, transform .6s ease;
+}
+.hero-strip .hs-panel:hover img{ filter:brightness(.65) saturate(1); transform:scale(1.04); }
+.hero-strip .hs-overlay{
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(9,9,9,.85) 0%, transparent 60%);
+  pointer-events:none;
+}
+.hero-strip .hs-label{
+  position:absolute; bottom:14px; left:14px;
+  font-size:10px; font-weight:700; color:rgba(240,237,232,.5);
+  text-transform:uppercase; letter-spacing:.1em;
+  transition:color .3s;
+}
+.hero-strip .hs-panel:hover .hs-label{ color:var(--text); }
+.hero-strip .hs-badge{
+  position:absolute; bottom:14px; right:14px;
+  font-size:9.5px; color:var(--text); opacity:0;
+  transition:opacity .3s; letter-spacing:.06em;
+}
+.hero-strip .hs-panel:hover .hs-badge{ opacity:.6; }
+
+/* EDITORIAL WATERMARK */
+.hero-strip .hs-watermark{
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  font-size:60px; font-weight:700; letter-spacing:-3px;
+  color:rgba(255,255,255,.06); pointer-events:none;
+  white-space:nowrap; font-style:italic;
+}
+
+/* PHOTO CARD in Moodboard */
+.mc-photo img{ width:100%; display:block; aspect-ratio:3/4; object-fit:cover; filter:brightness(.85) saturate(.9); transition:filter .3s; }
+.mc-photo:hover img{ filter:brightness(.95) saturate(1); }
 </style>
 </head>
 <body>
@@ -233,6 +282,35 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
       <div style="font-size:12px;color:var(--text2)">Lunes 18 de mayo, 2026 · Delyé Admin</div>
     </div>
     <div class="shopify-live"><div class="dot-live"></div>Shopify Live · delye.co</div>
+  </div>
+
+  <!-- CAMPAIGN HERO STRIP — fotos reales de shooting Delyé -->
+  <div class="hero-strip">
+    <div class="hs-panel">
+      <img src="https://cdn.shopify.com/s/files/1/0908/6124/0705/files/foto_coleccion.jpg" alt="Delyé Campaign" loading="lazy" />
+      <div class="hs-overlay"></div>
+      <div class="hs-label">Made for Difference</div>
+      <div class="hs-badge">delye.co</div>
+    </div>
+    <div class="hs-panel">
+      <img src="https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard6.png" alt="Delyé Shooting" loading="lazy" />
+      <div class="hs-overlay"></div>
+      <div class="hs-label">SS26 Campaign</div>
+      <div class="hs-badge">Saints Delyé Studio</div>
+    </div>
+    <div class="hs-panel">
+      <img src="https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard1.png" alt="Delyé Editorial" loading="lazy" />
+      <div class="hs-overlay"></div>
+      <div class="hs-label">Editorial</div>
+      <div class="hs-badge">Nil Cortés</div>
+    </div>
+    <div class="hs-panel">
+      <img src="https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard10.png" alt="Delyé Lookbook" loading="lazy" />
+      <div class="hs-overlay"></div>
+      <div class="hs-label">Lookbook</div>
+      <div class="hs-badge">730 pedidos</div>
+    </div>
+    <div class="hs-watermark">SD</div>
   </div>
 
   <div class="metrics m4">
@@ -517,6 +595,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
   <div class="psub">Referencias visuales e inspiración creativa de Delyé</div>
   <div class="tb">
     <button class="btn bw" id="mf-all" onclick="setMF('all',this)">Todo</button>
+    <button class="btn bo2" id="mf-shooting" onclick="setMF('shooting',this)">Shooting</button>
     <button class="btn bo2" id="mf-palette" onclick="setMF('palette',this)">Paleta</button>
     <button class="btn bo2" id="mf-ref" onclick="setMF('ref',this)">Referencia</button>
     <button class="btn bo2" id="mf-prod" onclick="setMF('prod',this)">Producto</button>
@@ -593,14 +672,14 @@ var products = [
   {n:'Denim Pants Black',         p:'€89',  xs:0, s:-12,m:-28,l:-25,xl:-3, status:'ACTIVE'},
 ];
 
-// Real collections/drops
+// Real collections/drops with real Shopify CDN cover images
 var drops = [
-  {n:'Summer 2026 — Mystery Box', date:'May 2026',  status:'Live',      rev:'€1,109',   orders:11,  bg:'#141414', desc:'Mystery Boxes verano activas'},
-  {n:'Made for Difference V2',    date:'Dic 2025',  status:'Activo',    rev:'€40,000+', orders:250, bg:'#0f0f0f', desc:'Denim, Varsity, Hoodies, Long Sleeves'},
-  {n:'The Archive',               date:'Oct 2025',  status:'Archivado', rev:'€62,998',  orders:440, bg:'#111',    desc:'Drop masivo Nov 2025 — Tracksuits & Sets'},
-  {n:'Made for Difference V1',    date:'Oct 2025',  status:'Archivado', rev:'€9,013',   orders:58,  bg:'#0e0e0e', desc:'Primera colección Delyé — Tracksuits'},
-  {n:'Best Sellers',              date:'Permanent', status:'Activo',    rev:'Ongoing',  orders:'-', bg:'#131313', desc:'6 productos seleccionados'},
-  {n:'Denim Collection',          date:'Dic 2025',  status:'Activo',    rev:'€27,000+', orders:200, bg:'#0a0a0a', desc:'Denim Jacket, Pants, Sets en 3 colores'},
+  {n:'Summer 2026 — Mystery Box', date:'May 2026',  status:'Live',      rev:'€1,109',   orders:11,  img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/collections/summerdrop.png',     desc:'Mystery Boxes verano activas'},
+  {n:'Made for Difference V2',    date:'Dic 2025',  status:'Activo',    rev:'€40,000+', orders:250, img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/collections/hy.png',             desc:'Denim, Varsity, Hoodies, Long Sleeves'},
+  {n:'The Archive',               date:'Oct 2025',  status:'Archivado', rev:'€62,998',  orders:440, img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard12.png',           desc:'Drop masivo Nov 2025 — Tracksuits & Sets'},
+  {n:'Made for Difference V1',    date:'Oct 2025',  status:'Archivado', rev:'€9,013',   orders:58,  img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/collections/coleccion_04a62b2d-13b2-4a4b-8feb-9a2d376da8c6.png', desc:'Primera colección Delyé — Tracksuits'},
+  {n:'Best Sellers',              date:'Permanent', status:'Activo',    rev:'Ongoing',  orders:'-', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard3.png',            desc:'6 productos seleccionados'},
+  {n:'Denim Collection',          date:'Dic 2025',  status:'Activo',    rev:'€27,000+', orders:200, img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard6_60aca24c-7a09-44b2-8e0c-704350b895a0.png', desc:'Denim Jacket, Pants, Sets en 3 colores'},
 ];
 
 // Real customers sorted by spend
@@ -685,10 +764,14 @@ function renderDrops(){
   var sm={'Live':'bg','Activo':'bg','Archivado':'bgr'};
   document.getElementById('dropsgrid').innerHTML=drops.map(function(d){
     return '<div class="dc">'
-      +'<div class="dcover" style="background:'+d.bg+'">'+d.n.split(' ').slice(0,2).join(' ')+'</div>'
+      +'<div style="height:140px;overflow:hidden;position:relative">'
+      +'<img src="'+d.img+'" alt="'+d.n+'" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:top center;filter:brightness(.7) saturate(.9);transition:filter .3s,transform .4s" onmouseover="this.style.filter=\'brightness(.85) saturate(1)\';this.style.transform=\'scale(1.04)\'" onmouseout="this.style.filter=\'brightness(.7) saturate(.9)\';this.style.transform=\'\'" />'
+      +'<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(9,9,9,.7) 0%,transparent 60%)"></div>'
+      +'<div style="position:absolute;bottom:10px;left:12px;font-size:16px;font-weight:700;letter-spacing:-.5px;color:rgba(240,237,232,.9);font-style:italic">'+d.n.split(' ').slice(0,2).join(' ')+'</div>'
+      +'</div>'
       +'<div class="dbody">'
       +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">'
-      +'<div style="font-size:13.5px;font-weight:650">'+d.n+'</div>'
+      +'<div style="font-size:13px;font-weight:650">'+d.n+'</div>'
       +'<span class="badge '+sm[d.status]+'">'+d.status+'</span></div>'
       +'<div style="font-size:11px;color:var(--text2);margin-bottom:11px">'+d.date+' · '+d.desc+'</div>'
       +'<div style="display:flex;gap:16px">'
@@ -734,15 +817,21 @@ function renderFinTable(){
 // MOODBOARD
 // ═══════════════════════
 var moodItems=[
+  // Real Delyé shooting photos
+  {cat:'shooting', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/foto_coleccion.jpg',    title:'Shooting — Made for Difference', text:'Fondo cemento, iluminación editorial. Dirección de arte: Nil Cortés.'},
+  {cat:'shooting', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard1.png',        title:'SS26 Campaign — Look 01',       text:'White tee + monogram shorts. Clean studio aesthetic.'},
+  {cat:'shooting', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard6.png',        title:'SS26 Campaign — Look 02',       text:'Hoodie Monogram. Heavyweight cotton, embossed logo.'},
+  {cat:'shooting', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard10.png',       title:'SS26 Campaign — Look 03',       text:'Editorial doble. Two models, Barcelona chair.'},
+  {cat:'shooting', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard12.png',       title:'Lookbook — Archive Drop',       text:'Drop masivo Nov 2025 — 440 pedidos, €62,998.'},
+  {cat:'shooting', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard3.png',        title:'Product Shot — SS26',           text:'Clean product photography on model. Studio setup.'},
+  // Palette & Ideas
   {cat:'palette', bg:'#0a0a0a', h:75, title:'Paleta Principal — Delyé', text:'Negro profundo, gris cemento, blanco roto. Base visual de toda la marca.'},
-  {cat:'ref',     bg:'#111',    h:65, title:'Referencia — Denim Drop', text:'Estética raw denim minimalista. Cortes estructurados, lavados oscuros.'},
-  {cat:'palette', bg:'#c9a96e', h:55, title:'Acento Dorado', text:'Usado en etiquetas Saints Delyé Studio y detalles premium.'},
-  {cat:'prod',    bg:'#131313', h:80, title:'Varsity Jacket Black', text:'Best seller histórico. €13,595 en ventas · 116 pedidos. Producto icónico.'},
-  {cat:'idea',    bg:'#0f0f0f', h:60, title:'Drop AW26 Concept', text:'"Made for Difference V3" — Continuar la línea denim pero con nuevas siluetas. Launch previsto Q4 2026.'},
-  {cat:'ref',     bg:'#181818', h:70, title:'Shooting Ref — Summer', text:'Luz natural dura, fondo arquitectónico, modelos con actitud. Inspiración Celine SS23.'},
-  {cat:'prod',    bg:'#141414', h:65, title:'Denim Set Black', text:'Top seller. €60,850 en ventas · 388 pedidos. El producto más vendido de Delyé.'},
-  {cat:'idea',    bg:'#0d0d0d', h:55, title:'Mystery Box Concept', text:'Format exitoso. Considera Mystery Box premium €99+ para AW26 con piezas exclusivas.'},
-  {cat:'palette', bg:'#1a1510', h:60, title:'Warm Neutral AW26', text:'Incorporar earth tones para la próxima colección. Referencia: beige tostado, terracota.'},
+  {cat:'palette', bg:'#c9a96e', h:55, title:'Acento Dorado',             text:'Usado en etiquetas Saints Delyé Studio y detalles premium.'},
+  {cat:'palette', bg:'#1a1510', h:60, title:'Warm Neutral AW26',         text:'Earth tones para la próxima colección. Beige tostado, terracota.'},
+  {cat:'ref',     bg:'#111',    h:65, title:'Referencia — Denim Drop',   text:'Raw denim minimalista. Cortes estructurados, lavados oscuros.'},
+  {cat:'prod',    bg:'#131313', h:80, title:'Varsity Jacket Black',       text:'Best seller histórico. €13,595 en ventas · 116 pedidos.'},
+  {cat:'idea',    bg:'#0f0f0f', h:60, title:'Drop AW26 Concept',         text:'"Made for Difference V3" — Nuevas siluetas. Launch Q4 2026.'},
+  {cat:'idea',    bg:'#0d0d0d', h:55, title:'Mystery Box Premium AW26',  text:'Mystery Box €99+ con piezas exclusivas. Formato exitoso SS26.'},
 ];
 function setMF(cat,el){
   document.querySelectorAll('#p-mood .tb .btn').forEach(function(b){b.className='btn bo2';});
@@ -750,10 +839,13 @@ function setMF(cat,el){
 }
 function renderMood(cat){
   var items=cat==='all'?moodItems:moodItems.filter(function(i){return i.cat===cat;});
-  var cl={'palette':'Paleta','ref':'Referencia','prod':'Producto','idea':'Idea'};
+  var cl={'palette':'Paleta','ref':'Referencia','prod':'Producto','idea':'Idea','shooting':'Shooting'};
   document.getElementById('mgrid').innerHTML=items.map(function(it){
-    return '<div class="mc">'
-      +'<div style="height:'+it.h+'px;background:'+it.bg+'"></div>'
+    var visual=it.img
+      ?'<img src="'+it.img+'" alt="'+it.title+'" loading="lazy" style="width:100%;display:block;aspect-ratio:3/4;object-fit:cover;object-position:top center;filter:brightness(.8) saturate(.9);transition:filter .3s ease,transform .4s ease;" onmouseover="this.style.filter=\'brightness(.95) saturate(1)\';this.style.transform=\'scale(1.03)\'" onmouseout="this.style.filter=\'brightness(.8) saturate(.9)\';this.style.transform=\'scale(1)\'" />'
+      :'<div style="height:'+it.h+'px;background:'+it.bg+';transition:filter .3s"></div>';
+    return '<div class="mc" style="overflow:hidden">'
+      +visual
       +'<div style="padding:12px">'
       +'<div class="tag">'+(cl[it.cat]||it.cat)+'</div>'
       +'<div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px">'+it.title+'</div>'
