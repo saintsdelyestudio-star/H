@@ -1056,6 +1056,163 @@ label.nl:hover{transform:translateX(2px)}
 
 <script>
 // ═══════════════════════
+// INTRO
+// ═══════════════════════
+function dismissIntro(){
+  var el=document.getElementById('intro');
+  if(el){el.classList.add('out');setTimeout(function(){el.style.display='none';},800);}
+}
+setTimeout(function(){var f=document.getElementById('intro-fill');if(f)f.style.width='100%';},100);
+setTimeout(dismissIntro,2600);
+
+// ═══════════════════════
+// SOUND EFFECTS
+// ═══════════════════════
+var _audioCtx=null;
+function getACtx(){if(!_audioCtx)_audioCtx=new(window.AudioContext||window.webkitAudioContext)();return _audioCtx;}
+function playTick(){try{var c=getACtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(900,c.currentTime);o.frequency.exponentialRampToValueAtTime(700,c.currentTime+.08);g.gain.setValueAtTime(.04,c.currentTime);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.12);o.start();o.stop(c.currentTime+.12);}catch(e){}}
+function playDone(){try{var c=getACtx();[[0,.15,523],[.12,.15,659],[.22,.2,784]].forEach(function(f){var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(f[2],c.currentTime+f[0]);g.gain.setValueAtTime(.06,c.currentTime+f[0]);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+f[0]+f[1]);o.start(c.currentTime+f[0]);o.stop(c.currentTime+f[0]+f[1]+.05);});}catch(e){}}
+function playOpen(){try{var c=getACtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(300,c.currentTime);o.frequency.exponentialRampToValueAtTime(500,c.currentTime+.15);g.gain.setValueAtTime(.03,c.currentTime);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.2);o.start();o.stop(c.currentTime+.2);}catch(e){}}
+
+// ═══════════════════════
+// COUNTDOWN
+// ═══════════════════════
+var DROP_DATE=new Date('2026-07-01T00:00:00');
+function updateCountdown(){
+  var now=new Date();var diff=DROP_DATE-now;
+  if(diff<=0){['cd-d','cd-h','cd-m','cd-s'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent='00';});return;}
+  var d=Math.floor(diff/86400000);
+  var h=Math.floor((diff%86400000)/3600000);
+  var m=Math.floor((diff%3600000)/60000);
+  var s=Math.floor((diff%60000)/1000);
+  function set(id,v){var el=document.getElementById(id);if(el&&el.textContent!==String(v<10?'0'+v:v)){el.style.transform='scale(1.12)';el.style.color='var(--gold)';el.textContent=v<10?'0'+v:v;setTimeout(function(){el.style.transform='';el.style.color='';},150);}}
+  set('cd-d',d);set('cd-h',h);set('cd-m',m);set('cd-s',s);
+}
+setInterval(updateCountdown,1000);
+updateCountdown();
+
+// ═══════════════════════
+// COMMAND MENU
+// ═══════════════════════
+var CMD_ITEMS=[
+  {label:'Dashboard',      icon:'⌂',  page:'r-dash',    group:'Páginas'},
+  {label:'Calendar & Tasks',icon:'◫', page:'r-tasks',   group:'Páginas'},
+  {label:'Inventario',     icon:'▦',  page:'r-inv',     group:'Páginas'},
+  {label:'Drops',          icon:'◈',  page:'r-drops',   group:'Páginas'},
+  {label:'Clientes',       icon:'◉',  page:'r-clients', group:'Páginas'},
+  {label:'Finanzas',       icon:'◆',  page:'r-fin',     group:'Páginas'},
+  {label:'Equipo',         icon:'◎',  page:'r-team',    group:'Páginas'},
+  {label:'Colaboradores',  icon:'◌',  page:'r-collab',  group:'Páginas'},
+  {label:'Moodboard',      icon:'◈',  page:'r-mood',    group:'Páginas'},
+  {label:'Delyé Vault',    icon:'⊘',  page:'r-vault',   group:'Páginas'},
+  {label:'Contactos Pro',  icon:'⊕',  page:'r-contacts',group:'Páginas'},
+  {label:'Nueva Tarea',    icon:'+',                    group:'Acciones',action:function(){setPage('r-tasks');setTimeout(openModal,50);}},
+  {label:'Nueva Credencial',icon:'+',                   group:'Acciones',action:function(){setPage('r-vault');setTimeout(openVaultModal,50);}},
+  {label:'Nuevo Contacto', icon:'+',                    group:'Acciones',action:function(){setPage('r-contacts');setTimeout(openContactModal,50);}},
+  {label:'Modo Ambient',   icon:'☽',                    group:'Acciones',action:toggleAmbient},
+  {label:'Logros Delyé',   icon:'⚡',                   group:'Acciones',action:openAchievements},
+];
+var cmdSel=0;
+function openCmd(){document.getElementById('cmd-overlay').classList.add('open');document.getElementById('cmd-input').value='';filterCmd();setTimeout(function(){document.getElementById('cmd-input').focus();},50);}
+function closeCmd(){document.getElementById('cmd-overlay').classList.remove('open');cmdSel=0;}
+function setPage(id){var r=document.getElementById(id);if(r){r.checked=true;r.dispatchEvent(new Event('change'));}closeCmd();}
+function filterCmd(){
+  var q=document.getElementById('cmd-input').value.toLowerCase();
+  cmdSel=0;
+  var filtered=CMD_ITEMS.filter(function(i){return !q||i.label.toLowerCase().indexOf(q)>-1;});
+  var groups={};
+  filtered.forEach(function(i){(groups[i.group]=groups[i.group]||[]).push(i);});
+  document.getElementById('cmd-results').innerHTML=Object.keys(groups).map(function(g){
+    return '<div class="cmd-section">'+g+'</div>'
+      +groups[g].map(function(item){
+        var gi=filtered.indexOf(item);
+        return '<div class="cmd-item'+(gi===0?' sel':'')+'" onclick="execCmd('+CMD_ITEMS.indexOf(item)+')"><div class="cmd-item-icon">'+item.icon+'</div><div class="cmd-label">'+item.label+'</div></div>';
+      }).join('');
+  }).join('');
+}
+function execCmd(i){var item=CMD_ITEMS[i];if(!item)return;if(item.page)setPage(item.page);else if(item.action){closeCmd();item.action();}playTick();}
+document.addEventListener('keydown',function(e){
+  if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openCmd();}
+  if(e.key==='Escape'){closeCmd();closeModal();try{closeVaultModal();}catch(ex){}try{closeContactModal();}catch(ex){}closeAchievements();}
+  if(document.getElementById('cmd-overlay').classList.contains('open')){
+    var items=document.querySelectorAll('#cmd-results .cmd-item');
+    if(e.key==='ArrowDown'){e.preventDefault();items[cmdSel]&&items[cmdSel].classList.remove('sel');cmdSel=(cmdSel+1)%items.length;items[cmdSel]&&items[cmdSel].classList.add('sel');items[cmdSel]&&items[cmdSel].scrollIntoView({block:'nearest'});}
+    if(e.key==='ArrowUp'){e.preventDefault();items[cmdSel]&&items[cmdSel].classList.remove('sel');cmdSel=(cmdSel-1+items.length)%items.length;items[cmdSel]&&items[cmdSel].classList.add('sel');items[cmdSel]&&items[cmdSel].scrollIntoView({block:'nearest'});}
+    if(e.key==='Enter'){var sel=document.querySelector('#cmd-results .cmd-item.sel');if(sel)sel.click();}
+  }
+});
+
+// ═══════════════════════
+// AMBIENT MODE
+// ═══════════════════════
+function toggleAmbient(){document.body.classList.toggle('ambient');playTick();var on=document.body.classList.contains('ambient');toast(on?'☽ Ambient mode activado':'☀ Modo normal');}
+
+// ═══════════════════════
+// ACHIEVEMENTS
+// ═══════════════════════
+var ACHIEVEMENTS=[
+  {icon:'🔥',name:'Primer Drop',desc:'La chispa lo empezó todo',unlocked:true},
+  {icon:'📦',name:'100 Pedidos',desc:'La comunidad ha llegado',unlocked:true},
+  {icon:'🧥',name:'Denim King',desc:'+200 prendas denim vendidas',unlocked:true},
+  {icon:'🏙',name:'Barcelona Original',desc:'Desde BCN para el mundo',unlocked:true},
+  {icon:'🚀',name:'500 Pedidos',desc:'Escala real, marca real',unlocked:true},
+  {icon:'⚡',name:'730 Pedidos',desc:'Top marca streetwear ES',unlocked:true},
+  {icon:'💰',name:'€100K Revenue',desc:'Solo un paso más. Sigue.',unlocked:false},
+  {icon:'🌍',name:'Drop Internacional',desc:'Vender fuera de España',unlocked:false},
+  {icon:'🤝',name:'Collab Oficial',desc:'Primera collab de marca',unlocked:false},
+  {icon:'👑',name:'Cult Status',desc:'1000 pedidos completados',unlocked:false},
+];
+function openAchievements(){
+  document.getElementById('ach-overlay').classList.add('open');
+  document.getElementById('ach-grid').innerHTML=ACHIEVEMENTS.map(function(a){
+    return '<div class="ach-card '+(a.unlocked?'unlocked':'locked')+'">'
+      +'<div class="ach-icon">'+a.icon+'</div>'
+      +'<div><div class="ach-name">'+a.name+'</div><div class="ach-desc">'+a.desc+'</div>'
+      +'<div class="ach-status">'+(a.unlocked?'✓ Desbloqueado':'Bloqueado')+'</div></div></div>';
+  }).join('');
+  var pct=Math.round(730/1000*100);
+  document.getElementById('ach-xp-bar').style.width=pct+'%';
+  document.getElementById('ach-xp-txt').textContent='730 / 1000 ventas para Nivel 4';
+  playOpen();
+}
+function closeAchievements(){document.getElementById('ach-overlay').classList.remove('open');}
+
+// ═══════════════════════
+// COUNT-UP ANIMATION
+// ═══════════════════════
+function countUp(el,target,prefix,suffix,decimals){
+  var start=performance.now();
+  var duration=800;
+  var from=0;
+  function step(now){
+    var progress=Math.min((now-start)/duration,1);
+    var ease=1-Math.pow(1-progress,3);
+    var val=from+(target-from)*ease;
+    el.textContent=prefix+(decimals?val.toFixed(decimals):Math.round(val).toLocaleString())+suffix;
+    if(progress<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+function animatePageMetrics(pageId){
+  var page=document.getElementById(pageId);
+  if(!page)return;
+  page.querySelectorAll('.mv').forEach(function(el){
+    var txt=el.textContent.trim();
+    var m=txt.match(/^([€]?)([0-9,]+\.?[0-9]*)(.*)$/);
+    if(!m)return;
+    var prefix=m[1];var num=parseFloat(m[2].replace(/,/g,''));var suffix=m[3];
+    if(isNaN(num)||num>1000000)return;
+    countUp(el,num,prefix,suffix,txt.indexOf('.')>-1?2:0);
+  });
+}
+document.querySelectorAll('input[name="p"]').forEach(function(r){
+  r.addEventListener('change',function(){
+    var pageId='p-'+r.id.replace('r-','');
+    setTimeout(function(){animatePageMetrics(pageId);},50);
+  });
+});
+
+// ═══════════════════════
 // REAL SHOPIFY DATA
 // ═══════════════════════
 
@@ -1158,15 +1315,20 @@ function renderTasks(){
   renderCalStats();
 }
 function delTask(e,id){e.stopPropagation();tasks=tasks.filter(function(t){return t.id!==id;});renderAll();}
-function toggleTask(id){tasks=tasks.map(function(t){return t.id===id?Object.assign({},t,{done:!t.done}):t;});renderAll();}
-function openModal(){document.getElementById('tmodal').classList.add('open');document.getElementById('td').value=calSelected||'';setTimeout(function(){document.getElementById('ti').focus();},50);}
+function toggleTask(id){
+  var wasDone=tasks.find(function(t){return t.id===id;}).done;
+  tasks=tasks.map(function(t){return t.id===id?Object.assign({},t,{done:!t.done}):t;});
+  if(!wasDone)playDone();
+  renderAll();
+}
+function openModal(){playOpen();document.getElementById('tmodal').classList.add('open');document.getElementById('td').value=calSelected||'';setTimeout(function(){document.getElementById('ti').focus();},50);}
 function openModalForDay(){document.getElementById('td').value=calSelected;openModal();}
 function closeModal(){document.getElementById('tmodal').classList.remove('open');}
 function addTask(){
   var t=document.getElementById('ti').value.trim();if(!t)return;
   tasks.unshift({id:Date.now(),t:t,cat:document.getElementById('tc3').value,p:document.getElementById('tp').value,d:document.getElementById('td').value||'2026-06-30',done:false});
   closeModal();document.getElementById('ti').value='';
-  renderAll();
+  renderAll();playTick();
 }
 function renderAll(){renderTasks();renderCalendar();renderDaySidebar();}
 
@@ -1474,7 +1636,7 @@ function delVault(e,id){
   vault=vault.filter(function(v){return v.id!==id;});
   saveVault();renderVault();toast('Credencial eliminada');
 }
-function openVaultModal(){document.getElementById('vmodal').classList.add('open');setTimeout(function(){document.getElementById('vn').focus();},50);}
+function openVaultModal(){playOpen();document.getElementById('vmodal').classList.add('open');setTimeout(function(){document.getElementById('vn').focus();},50);}
 function closeVaultModal(){document.getElementById('vmodal').classList.remove('open');['vn','vu','vp','vurl','vnotes'].forEach(function(i){document.getElementById(i).value='';});}
 function addVaultEntry(){
   var n=document.getElementById('vn').value.trim();if(!n){toast('Falta el nombre');return;}
@@ -1490,7 +1652,7 @@ function addVaultEntry(){
     notes:document.getElementById('vnotes').value.trim(),
     date:new Date().toISOString().slice(0,10)
   });
-  saveVault();closeVaultModal();renderVault();toast('✓ Credencial guardada');
+  saveVault();closeVaultModal();renderVault();toast('✓ Credencial guardada');playTick();
 }
 function renderVault(){
   var q=(document.getElementById('vsearch')||{value:''}).value.toLowerCase();
@@ -1551,7 +1713,7 @@ function setCF(c,el){
   document.querySelectorAll('#p-contacts .tb .btn').forEach(function(b){b.className='btn bo2';});
   el.className='btn bw';contactFilter=c;renderContacts();
 }
-function openContactModal(){document.getElementById('cmodal').classList.add('open');setTimeout(function(){document.getElementById('cn').focus();},50);}
+function openContactModal(){playOpen();document.getElementById('cmodal').classList.add('open');setTimeout(function(){document.getElementById('cn').focus();},50);}
 function closeContactModal(){document.getElementById('cmodal').classList.remove('open');['cn','crole','ccomp','cemail','cphone','cig','cnotes'].forEach(function(i){document.getElementById(i).value='';});}
 function addContact(){
   var n=document.getElementById('cn').value.trim();if(!n){toast('Falta el nombre');return;}
@@ -1567,7 +1729,7 @@ function addContact(){
     notes:document.getElementById('cnotes').value.trim(),
     last:new Date().toISOString().slice(0,10)
   });
-  saveContacts();closeContactModal();renderContacts();toast('✓ Contacto añadido');
+  saveContacts();closeContactModal();renderContacts();toast('✓ Contacto añadido');playTick();
 }
 function delContact(e,id){
   e.stopPropagation();
