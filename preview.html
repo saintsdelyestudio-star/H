@@ -299,8 +299,8 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
 .mc-photo:hover img{ filter:brightness(.95) saturate(1); }
 
 /* INTRO */
-#intro{position:fixed;inset:0;background:#060606;z-index:9999;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity .8s ease}
-#intro.out{opacity:0;pointer-events:none}
+#intro{position:fixed;inset:0;background:#060606;z-index:9999;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity .7s ease,visibility .7s ease}
+#intro.out{opacity:0;visibility:hidden;pointer-events:none}
 .intro-inner{text-align:center;display:flex;flex-direction:column;align-items:center;gap:0}
 .intro-brand{font-size:11px;letter-spacing:.5em;color:#2a2a2a;text-transform:uppercase;font-weight:700;margin-bottom:28px;animation:iup .8s ease .1s both}
 .intro-title{font-size:clamp(32px,5vw,52px);font-weight:300;color:#f0ede8;letter-spacing:-1.5px;margin-bottom:16px;animation:iup .9s ease .3s both}
@@ -388,7 +388,7 @@ label.nl:hover{transform:translateX(2px)}
 <div id="intro" onclick="dismissIntro()">
   <div class="intro-inner">
     <div class="intro-line intro-brand">SD</div>
-    <div class="intro-line intro-title">Made for Difference.</div>
+    <div class="intro-line intro-title">No Noise, Just Presence.</div>
     <div class="intro-line intro-sub">delye.co &nbsp;·&nbsp; Barcelona, 2026</div>
     <div class="intro-bar"><div class="intro-bar-fill" id="intro-fill"></div></div>
     <div class="intro-hint">click para continuar</div>
@@ -1058,12 +1058,22 @@ label.nl:hover{transform:translateX(2px)}
 // ═══════════════════════
 // INTRO
 // ═══════════════════════
+var _introDone=false;
 function dismissIntro(){
+  if(_introDone)return;
+  _introDone=true;
   var el=document.getElementById('intro');
-  if(el){el.classList.add('out');setTimeout(function(){el.style.display='none';},800);}
+  if(!el)return;
+  el.classList.add('out');
+  setTimeout(function(){
+    if(el&&el.parentNode)el.parentNode.removeChild(el);
+  },750);
 }
-setTimeout(function(){var f=document.getElementById('intro-fill');if(f)f.style.width='100%';},100);
-setTimeout(dismissIntro,2600);
+setTimeout(function(){
+  var f=document.getElementById('intro-fill');
+  if(f)f.style.width='100%';
+},80);
+setTimeout(dismissIntro,2800);
 
 // ═══════════════════════
 // SOUND EFFECTS
