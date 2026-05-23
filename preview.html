@@ -297,9 +297,107 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
 /* PHOTO CARD in Moodboard */
 .mc-photo img{ width:100%; display:block; aspect-ratio:3/4; object-fit:cover; filter:brightness(.85) saturate(.9); transition:filter .3s; }
 .mc-photo:hover img{ filter:brightness(.95) saturate(1); }
+
+/* INTRO */
+#intro{position:fixed;inset:0;background:#060606;z-index:9999;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity .8s ease}
+#intro.out{opacity:0;pointer-events:none}
+.intro-inner{text-align:center;display:flex;flex-direction:column;align-items:center;gap:0}
+.intro-brand{font-size:11px;letter-spacing:.5em;color:#2a2a2a;text-transform:uppercase;font-weight:700;margin-bottom:28px;animation:iup .8s ease .1s both}
+.intro-title{font-size:clamp(32px,5vw,52px);font-weight:300;color:#f0ede8;letter-spacing:-1.5px;margin-bottom:16px;animation:iup .9s ease .3s both}
+.intro-sub{font-size:11px;color:#333;letter-spacing:.15em;text-transform:uppercase;animation:iup .8s ease .5s both}
+.intro-bar{width:120px;height:1px;background:#1a1a1a;margin:32px auto 18px;overflow:hidden;animation:iup .6s ease .7s both}
+.intro-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,#c9a96e,#f0ede8);transition:width 2s linear}
+.intro-hint{font-size:9.5px;color:#222;letter-spacing:.2em;text-transform:uppercase;animation:iup .6s ease 1.2s both}
+@keyframes iup{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ATMOSPHERE */
+.bg-orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0}
+.orb1{width:600px;height:600px;background:radial-gradient(circle,rgba(201,169,110,.04) 0%,transparent 70%);top:-10%;left:-10%;animation:orb-drift 25s ease-in-out infinite alternate}
+.orb2{width:500px;height:500px;background:radial-gradient(circle,rgba(100,100,255,.02) 0%,transparent 70%);bottom:-15%;right:-5%;animation:orb-drift 30s ease-in-out infinite alternate-reverse}
+@keyframes orb-drift{0%{transform:translate(0,0)}100%{transform:translate(30px,20px)}}
+.bg-grain{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px 180px;animation:grain-shift 4s steps(4) infinite}
+@keyframes grain-shift{0%{background-position:0 0}25%{background-position:-10px 5px}50%{background-position:5px -8px}75%{background-position:-5px 10px}100%{background-position:0 0}}
+.layout{position:relative;z-index:2}
+
+/* COUNTDOWN */
+.countdown-widget{background:linear-gradient(135deg,#0d0d0d 0%,#111 100%);border:1px solid #1e1e1e;border-radius:14px;padding:20px 24px;margin-bottom:20px;position:relative;overflow:hidden}
+.countdown-widget::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(201,169,110,.03) 0%,transparent 60%);pointer-events:none}
+.cd-unit{text-align:center;min-width:36px}
+.cd-num{font-size:28px;font-weight:700;color:var(--text);letter-spacing:-1px;line-height:1;font-variant-numeric:tabular-nums;transition:all .15s ease}
+.cd-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-top:3px}
+.cd-sep{font-size:22px;color:var(--text3);padding-bottom:12px;font-weight:300}
+.cd-pulse{position:absolute;right:24px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 0 rgba(201,169,110,.4);animation:cd-pulse 2s ease-in-out infinite}
+@keyframes cd-pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,169,110,.4)}50%{box-shadow:0 0 0 8px rgba(201,169,110,0)}}
+
+/* COMMAND MENU */
+#cmd-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(16px);z-index:9000;display:none;align-items:flex-start;justify-content:center;padding-top:18vh}
+#cmd-overlay.open{display:flex;animation:cmd-in .18s ease}
+@keyframes cmd-in{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
+#cmd-box{width:520px;max-width:92vw;background:#0f0f0f;border:1px solid #222;border-radius:14px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.7)}
+#cmd-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid #1a1a1a}
+#cmd-head svg{color:#444;flex-shrink:0}
+#cmd-input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:14px;font-family:inherit}
+#cmd-input::placeholder{color:#333}
+#cmd-esc{font-size:9.5px;color:#333;border:1px solid #222;border-radius:4px;padding:2px 6px;cursor:pointer;letter-spacing:.08em}
+#cmd-results{max-height:340px;overflow-y:auto;padding:6px}
+.cmd-item{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:8px;cursor:pointer;transition:background .1s}
+.cmd-item:hover,.cmd-item.sel{background:#1a1a1a}
+.cmd-item-icon{width:28px;height:28px;background:#1a1a1a;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.cmd-item.sel .cmd-item-icon{background:#252525}
+.cmd-label{flex:1;font-size:13px;color:var(--text)}
+.cmd-short{font-size:10px;color:#333;background:#111;border:1px solid #1e1e1e;border-radius:4px;padding:2px 6px}
+.cmd-section{font-size:9.5px;color:#333;text-transform:uppercase;letter-spacing:.12em;font-weight:700;padding:8px 12px 4px}
+#cmd-footer{display:flex;gap:16px;justify-content:center;padding:10px;border-top:1px solid #141414;font-size:10px;color:#2a2a2a}
+
+/* AMBIENT MODE */
+body.ambient .sidebar{opacity:.7}
+body.ambient .main{filter:sepia(.04) brightness(.92)}
+body.ambient::after{content:'';position:fixed;inset:0;background:linear-gradient(180deg,rgba(20,10,0,.08) 0%,transparent 100%);pointer-events:none;z-index:5}
+#ambient-btn{font-size:13px;font-weight:450;padding:9px 10px;border-radius:8px;display:flex;align-items:center;gap:9px;transition:background .12s,color .12s}
+#ambient-btn:hover{background:var(--s2);color:var(--text)}
+body.ambient #ambient-btn{color:var(--gold)}
+
+/* ACHIEVEMENTS */
+#ach-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(14px);z-index:8500;display:none;align-items:center;justify-content:center}
+#ach-overlay.open{display:flex;animation:cmd-in .2s ease}
+#ach-box{background:#0e0e0e;border:1px solid #1e1e1e;border-radius:16px;padding:24px;width:480px;max-width:92vw;max-height:80vh;overflow-y:auto}
+#ach-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ach-card{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:13px;display:flex;gap:10px;align-items:flex-start;transition:all .2s}
+.ach-card.locked{opacity:.35;filter:grayscale(1)}
+.ach-card.unlocked:hover{border-color:var(--gold);transform:translateY(-1px)}
+.ach-icon{font-size:22px;flex-shrink:0;line-height:1}
+.ach-name{font-size:12px;font-weight:650;color:var(--text);margin-bottom:2px}
+.ach-desc{font-size:10.5px;color:var(--text2);line-height:1.4}
+.ach-status{font-size:9px;color:var(--gold);font-weight:700;margin-top:4px;text-transform:uppercase;letter-spacing:.06em}
+.ach-card.locked .ach-status{color:var(--text3)}
+
+/* ENHANCED TRANSITIONS */
+.metric{transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease,border-color .2s ease}
+.metric:hover{transform:translateY(-2px) scale(1.005);box-shadow:0 12px 32px rgba(0,0,0,.55);border-color:#2a2a2a}
+.card{transition:box-shadow .2s ease}
+.card:hover{box-shadow:0 4px 20px rgba(0,0,0,.3)}
+label.nl{transition:background .12s ease,color .12s ease,transform .1s ease}
+label.nl:hover{transform:translateX(2px)}
+.btn{transition:all .15s cubic-bezier(.34,1.56,.64,1)}
+.btn:active{transform:scale(.95)}
+.bw:hover{background:#e8e5dc;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.3)}
 </style>
 </head>
 <body>
+
+<div id="intro" onclick="dismissIntro()">
+  <div class="intro-inner">
+    <div class="intro-line intro-brand">SD</div>
+    <div class="intro-line intro-title">Made for Difference.</div>
+    <div class="intro-line intro-sub">delye.co &nbsp;·&nbsp; Barcelona, 2026</div>
+    <div class="intro-bar"><div class="intro-bar-fill" id="intro-fill"></div></div>
+    <div class="intro-hint">click para continuar</div>
+  </div>
+</div>
+
+<div class="bg-orb orb1"></div>
+<div class="bg-orb orb2"></div>
+<div class="bg-grain"></div>
 
 <input type="radio" class="pr" name="p" id="r-dash" checked />
 <input type="radio" class="pr" name="p" id="r-tasks" />
@@ -353,6 +451,10 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
   </div>
 
   <div class="sb-bottom">
+    <button class="nl" id="ambient-btn" onclick="toggleAmbient()" style="width:100%;border:none;background:transparent;cursor:pointer;text-align:left;color:var(--text2);margin-bottom:4px">
+      <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+      Ambient Mode
+    </button>
     <label class="nl" style="color:var(--text3)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Ajustes</label>
   </div>
 </aside>
@@ -397,6 +499,27 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
       <div class="hs-badge">730 pedidos</div>
     </div>
     <div class="hs-watermark">SD</div>
+  </div>
+
+  <!-- DROP COUNTDOWN -->
+  <div class="countdown-widget" id="countdown-widget">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-size:9.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.15em;font-weight:700;margin-bottom:6px">Próximo Lanzamiento</div>
+        <div style="font-size:14px;font-weight:600;color:var(--text);letter-spacing:-.2px">Made for Difference V3</div>
+        <div style="font-size:11px;color:var(--text2);margin-top:2px">1 de julio, 2026</div>
+      </div>
+      <div style="display:flex;gap:20px;align-items:flex-end">
+        <div class="cd-unit"><div class="cd-num" id="cd-d">--</div><div class="cd-label">días</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><div class="cd-num" id="cd-h">--</div><div class="cd-label">horas</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><div class="cd-num" id="cd-m">--</div><div class="cd-label">min</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><div class="cd-num" id="cd-s">--</div><div class="cd-label">seg</div></div>
+      </div>
+      <div class="cd-pulse"></div>
+    </div>
   </div>
 
   <div class="metrics m4">
@@ -895,6 +1018,41 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
 
 <!-- Toast notification -->
 <div class="toast" id="toast"></div>
+
+<!-- COMMAND MENU -->
+<div id="cmd-overlay" onclick="closeCmd()">
+  <div id="cmd-box" onclick="event.stopPropagation()">
+    <div id="cmd-head">
+      <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <input id="cmd-input" placeholder="Buscar página, acción..." oninput="filterCmd()" />
+      <div id="cmd-esc" onclick="closeCmd()">ESC</div>
+    </div>
+    <div id="cmd-results"></div>
+    <div id="cmd-footer">
+      <span>⌘K para abrir</span>
+      <span>↑↓ navegar</span>
+      <span>↵ ejecutar</span>
+    </div>
+  </div>
+</div>
+
+<!-- ACHIEVEMENTS -->
+<div id="ach-overlay" onclick="closeAchievements()">
+  <div id="ach-box" onclick="event.stopPropagation()">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div style="font-size:16px;font-weight:650;letter-spacing:-.2px">Logros Delyé ⚡</div>
+      <button class="icbtn" onclick="closeAchievements()">×</button>
+    </div>
+    <div id="ach-grid"></div>
+    <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border)">
+      <div style="font-size:10px;color:var(--text3);text-align:center;letter-spacing:.08em">NIVEL DE LA MARCA</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:10px">
+        <div style="font-size:22px;font-weight:700;color:var(--gold);min-width:40px" id="ach-level">3</div>
+        <div style="flex:1"><div style="font-size:12px;font-weight:600;margin-bottom:5px" id="ach-level-name">Cult Brand</div><div class="prog"><div class="pf" id="ach-xp-bar" style="width:0%"></div></div><div style="font-size:10px;color:var(--text3);margin-top:4px" id="ach-xp-txt">730 / 1000 ventas para Nivel 4</div></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 // ═══════════════════════
