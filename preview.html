@@ -222,6 +222,134 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--s2);border:1px solid var(--gold);color:var(--text);padding:9px 18px;border-radius:7px;font-size:12px;font-weight:600;z-index:2000;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(-4px)}
 
+/* ═══════════════════════════════════════
+   DELYÉ PREMIUM LAYER — v3
+   ═══════════════════════════════════════ */
+
+/* CUSTOM CURSOR */
+#cur,#cur-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);will-change:left,top}
+#cur{width:8px;height:8px;background:rgba(240,237,232,.95);transition:width .22s cubic-bezier(.34,1.56,.64,1),height .22s cubic-bezier(.34,1.56,.64,1),opacity .2s,background .2s}
+#cur-ring{width:32px;height:32px;border:1.5px solid rgba(240,237,232,.18);transition:width .35s cubic-bezier(.34,1.56,.64,1),height .35s cubic-bezier(.34,1.56,.64,1),border-color .25s,opacity .3s}
+body.cur-hover #cur{width:42px;height:42px;background:rgba(240,237,232,.08);border:1.5px solid rgba(240,237,232,.4)}
+body.cur-hover #cur-ring{width:0;height:0;opacity:0}
+body.cur-press #cur{width:6px;height:6px}
+body.cur-link #cur{width:14px;height:14px;background:var(--gold);opacity:.7}
+body.cur-link #cur-ring{border-color:rgba(201,169,110,.3)}
+
+/* HIDE SYSTEM CURSOR EVERYWHERE */
+*{cursor:none!important}
+
+/* CINEMATIC PAGE TRANSITIONS */
+@keyframes pg-in{from{opacity:0;transform:translateY(14px) scale(.987);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+@keyframes pg-out{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-8px) scale(.99)}}
+#r-dash:checked~.layout #p-dash,
+#r-tasks:checked~.layout #p-tasks,
+#r-inv:checked~.layout #p-inv,
+#r-drops:checked~.layout #p-drops,
+#r-clients:checked~.layout #p-clients,
+#r-fin:checked~.layout #p-fin,
+#r-team:checked~.layout #p-team,
+#r-collab:checked~.layout #p-collab,
+#r-mood:checked~.layout #p-mood,
+#r-vault:checked~.layout #p-vault,
+#r-contacts:checked~.layout #p-contacts{animation:pg-in .38s cubic-bezier(.16,1,.3,1)}
+
+/* SCROLL BEHAVIOUR */
+.main{scroll-behavior:smooth}
+
+/* GLASSMORPHISM SIDEBAR */
+.sidebar{backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);background:rgba(9,9,9,.88)!important;border-right-color:rgba(255,255,255,.04)!important}
+
+/* GLASSMORPHISM MODALS */
+.mbox{backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);background:rgba(13,13,13,.96)!important;box-shadow:0 32px 72px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.04)!important}
+
+/* METRIC CARD PREMIUM */
+.metric{position:relative;overflow:hidden}
+.metric::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.015) 0%,transparent 60%);pointer-events:none}
+.metric:hover{transform:translateY(-3px) scale(1.008)!important;box-shadow:0 16px 40px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.05)!important}
+
+/* CARD GLASSMORPHISM */
+.card{position:relative;overflow:hidden}
+.card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.012) 0%,transparent 50%);pointer-events:none;border-radius:12px}
+
+/* MAGNETIC BUTTON TRANSITION */
+.bw{transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .15s,box-shadow .2s!important}
+
+/* BREATHING — logo & live dot */
+@keyframes breathe{0%,100%{opacity:.65}50%{opacity:1}}
+@keyframes breathe-gold{0%,100%{text-shadow:0 0 0 rgba(201,169,110,0)}50%{text-shadow:0 0 16px rgba(201,169,110,.3)}}
+.lm{animation:breathe 4s ease-in-out infinite}
+.dot-live{animation:dot-pulse 2.2s ease-in-out infinite!important}
+@keyframes dot-pulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.5);transform:scale(1)}50%{box-shadow:0 0 0 5px rgba(74,222,128,0);transform:scale(1.15)}}
+
+/* COUNTDOWN GOLD BREATHING */
+.cd-num{animation:breathe-gold 3s ease-in-out infinite}
+
+/* ACTIVITY FEED */
+.act-feed{background:var(--s1);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.act-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border)}
+.act-list{max-height:220px;overflow-y:auto}
+.act-item{display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid var(--border);font-size:12px;transition:background .15s;animation:feed-slide .35s cubic-bezier(.16,1,.3,1)}
+.act-item:last-child{border-bottom:none}
+.act-item:hover{background:var(--s2)}
+@keyframes feed-slide{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+.act-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.act-txt{flex:1;color:var(--text);line-height:1.3}
+.act-time{font-size:10px;color:var(--text3);white-space:nowrap}
+
+/* LATE NIGHT MODE */
+body.late-night .main{filter:brightness(.88) sepia(.06)}
+body.late-night .sidebar{background:rgba(5,5,5,.95)!important}
+body.late-night .metric{background:#0b0b0b!important}
+body.late-night .card{background:#0b0b0b!important}
+body.late-night::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,100,50,.015) 0%,transparent 65%);pointer-events:none;z-index:4}
+
+/* LATE NIGHT TOGGLE */
+#ln-pill{position:fixed;top:18px;right:22px;z-index:500;display:flex;align-items:center;gap:6px;background:rgba(15,15,15,.85);border:1px solid var(--border);border-radius:99px;padding:5px 11px;font-size:10px;color:var(--text3);cursor:pointer!important;backdrop-filter:blur(12px);transition:all .2s;letter-spacing:.06em}
+#ln-pill:hover{color:var(--text);border-color:#333}
+body.late-night #ln-pill{color:var(--gold);border-color:rgba(201,169,110,.25)}
+
+/* NOTIFICATION STACK */
+#notif-stack{position:fixed;bottom:24px;right:24px;z-index:8000;display:flex;flex-direction:column-reverse;gap:8px;pointer-events:none}
+.notif{display:flex;align-items:center;gap:10px;background:#0f0f0f;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 15px;min-width:260px;max-width:320px;box-shadow:0 16px 40px rgba(0,0,0,.7);animation:notif-in .4s cubic-bezier(.16,1,.3,1);pointer-events:all;cursor:pointer!important;transition:opacity .3s,transform .3s}
+.notif.out{opacity:0;transform:translateX(20px)}
+@keyframes notif-in{from{opacity:0;transform:translateX(20px) scale(.95)}to{opacity:1;transform:none;scale:1}}
+.notif-icon{font-size:16px;flex-shrink:0}
+.notif-body{flex:1}
+.notif-title{font-size:12px;font-weight:600;color:var(--text);margin-bottom:1px}
+.notif-msg{font-size:11px;color:var(--text2);line-height:1.4}
+.notif-bar{position:absolute;bottom:0;left:0;height:2px;background:var(--gold);border-radius:0 0 12px 12px;animation:notif-bar 4s linear forwards}
+@keyframes notif-bar{from{width:100%}to{width:0%}}
+
+/* PARTICLE CANVAS */
+#particle-canvas{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.4}
+
+/* DROPS ERA OVERLAY */
+.dc{position:relative;overflow:hidden}
+.dc::before{content:'';position:absolute;inset:0;opacity:.03;pointer-events:none;z-index:0;background:linear-gradient(135deg,rgba(201,169,110,.2) 0%,transparent 60%);transition:opacity .3s}
+.dc:hover::before{opacity:.07}
+
+/* SIDEBAR LABEL ACTIVE INDICATOR GLOW */
+#r-dash:checked~.layout label[for="r-dash"],
+#r-tasks:checked~.layout label[for="r-tasks"],
+#r-inv:checked~.layout label[for="r-inv"],
+#r-drops:checked~.layout label[for="r-drops"],
+#r-clients:checked~.layout label[for="r-clients"],
+#r-fin:checked~.layout label[for="r-fin"],
+#r-team:checked~.layout label[for="r-team"],
+#r-collab:checked~.layout label[for="r-collab"],
+#r-mood:checked~.layout label[for="r-mood"],
+#r-vault:checked~.layout label[for="r-vault"],
+#r-contacts:checked~.layout label[for="r-contacts"]{text-shadow:0 0 20px rgba(240,237,232,.15)}
+
+/* GREETING GLOW */
+.greeting-name{background:linear-gradient(90deg,#f0ede8,#c9a96e,#f0ede8);background-size:200% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s ease-in-out infinite}
+@keyframes shimmer{0%,100%{background-position:100% 0}50%{background-position:0% 0}}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:none}
+
 /* CONTACTS */
 .contact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:13px}
 .cc{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:16px;transition:all .18s;cursor:pointer}
@@ -398,6 +526,11 @@ label.nl:hover{transform:translateX(2px)}
 <div class="bg-orb orb1"></div>
 <div class="bg-orb orb2"></div>
 <div class="bg-grain"></div>
+<canvas id="particle-canvas"></canvas>
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<div id="ln-pill" onclick="toggleLateNight()"><span id="ln-icon">●</span> <span id="ln-txt">Late Night</span></div>
+<div id="notif-stack"></div>
 
 <input type="radio" class="pr" name="p" id="r-dash" checked />
 <input type="radio" class="pr" name="p" id="r-tasks" />
@@ -466,8 +599,8 @@ label.nl:hover{transform:translateX(2px)}
 <div id="p-dash" class="page">
   <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px">
     <div>
-      <div style="font-size:21px;font-weight:700;letter-spacing:-.3px;margin-bottom:3px">Buenos días, Aimar 👋</div>
-      <div style="font-size:12px;color:var(--text2)">Lunes 18 de mayo, 2026 · Delyé Admin</div>
+      <div style="font-size:21px;font-weight:700;letter-spacing:-.3px;margin-bottom:3px">Buenos días, <span class="greeting-name" id="greeting-name">Aimar</span> 👋</div>
+      <div style="font-size:12px;color:var(--text2)" id="greeting-sub">Lunes 23 de mayo, 2026 · Delyé Admin</div>
     </div>
     <div class="shopify-live"><div class="dot-live"></div>Shopify Live · delye.co</div>
   </div>
@@ -551,6 +684,15 @@ label.nl:hover{transform:translateX(2px)}
       <span class="badge bg">Live Data</span>
     </div>
     <div class="cw" style="height:210px"><canvas id="cSales"></canvas></div>
+  </div>
+
+  <!-- LIVE ACTIVITY FEED -->
+  <div class="act-feed reveal">
+    <div class="act-head">
+      <div class="ct" style="margin:0">Actividad en Tiempo Real</div>
+      <div style="display:flex;align-items:center;gap:6px"><div class="dot-live" style="width:6px;height:6px"></div><span style="font-size:10px;color:var(--text3)">Live</span></div>
+    </div>
+    <div class="act-list" id="act-list"></div>
   </div>
 
   <div class="g2">
@@ -1800,6 +1942,172 @@ setTimeout(initCharts,100);
 document.querySelectorAll('input[name="p"]').forEach(function(r){
   r.addEventListener('change',function(){setTimeout(initCharts,50);});
 });
+
+// ═══════════════════════
+// PREMIUM LAYER — CUSTOM CURSOR
+// ═══════════════════════
+(function(){
+  var cur=document.getElementById('cur');
+  var ring=document.getElementById('cur-ring');
+  var mx=window.innerWidth/2,my=window.innerHeight/2;
+  var rx=mx,ry=my;
+  if(!cur||!ring)return;
+  document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+  (function raf(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(raf);})();
+  document.addEventListener('mousedown',function(){document.body.classList.add('cur-press');});
+  document.addEventListener('mouseup',function(){document.body.classList.remove('cur-press');});
+  function setHover(){document.body.classList.add('cur-hover');}
+  function unsetHover(){document.body.classList.remove('cur-hover');}
+  function setLink(){document.body.classList.add('cur-link');}
+  function unsetLink(){document.body.classList.remove('cur-link');}
+  document.addEventListener('mouseover',function(e){
+    var t=e.target.closest('button,label,.btn,.metric,.card,.ti,.cc,.vc,.act-item');
+    var l=e.target.closest('a');
+    if(t)setHover();else unsetHover();
+    if(l)setLink();else unsetLink();
+  });
+})();
+
+// ═══════════════════════
+// MAGNETIC BUTTONS
+// ═══════════════════════
+document.querySelectorAll('.bw').forEach(function(btn){
+  btn.addEventListener('mousemove',function(e){
+    var r=btn.getBoundingClientRect();
+    var x=(e.clientX-r.left-r.width/2)*.35;
+    var y=(e.clientY-r.top-r.height/2)*.35;
+    btn.style.transform='translate('+x+'px,'+y+'px)';
+  });
+  btn.addEventListener('mouseleave',function(){btn.style.transform='';});
+});
+
+// ═══════════════════════
+// SMART GREETING
+// ═══════════════════════
+(function(){
+  var h=new Date().getHours();
+  var greet=h<6?'Buenas noches':h<13?'Buenos días':h<20?'Buenas tardes':'Buenas noches';
+  var days=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  var months=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  var now=new Date();
+  var el=document.querySelector('[style*="Buenos días, "]');
+  var gn=document.getElementById('greeting-name');
+  var gs=document.getElementById('greeting-sub');
+  if(gn&&gn.parentElement){var parent=gn.parentElement;parent.childNodes[0].textContent=greet+', ';}
+  if(gs){var emoji=h<6?'🌙':h<13?'☀️':h<20?'🌅':'🌙';gs.textContent=days[now.getDay()].charAt(0).toUpperCase()+days[now.getDay()].slice(1)+' '+now.getDate()+' de '+months[now.getMonth()]+', '+now.getFullYear()+' · Delyé Admin '+emoji;}
+})();
+
+// ═══════════════════════
+// LATE NIGHT MODE
+// ═══════════════════════
+var _lnManual=false;
+function toggleLateNight(){
+  _lnManual=true;
+  document.body.classList.toggle('late-night');
+  var on=document.body.classList.contains('late-night');
+  document.getElementById('ln-icon').textContent=on?'◐':'●';
+  document.getElementById('ln-txt').textContent=on?'Late Night ON':'Late Night';
+  playTick();
+  pushNotif('🌙','Modo Late Night',on?'Iluminación reducida activada.':'Modo normal restaurado.');
+}
+(function(){
+  var h=new Date().getHours();
+  if(h>=22||h<6){document.body.classList.add('late-night');document.getElementById('ln-icon').textContent='◐';document.getElementById('ln-txt').textContent='Late Night ON';}
+})();
+
+// ═══════════════════════
+// PREMIUM NOTIFICATIONS
+// ═══════════════════════
+function pushNotif(icon,title,msg,dur){
+  var stack=document.getElementById('notif-stack');if(!stack)return;
+  dur=dur||4000;
+  var d=document.createElement('div');
+  d.className='notif';
+  d.innerHTML='<div class="notif-icon">'+icon+'</div><div class="notif-body"><div class="notif-title">'+title+'</div><div class="notif-msg">'+msg+'</div></div><div class="notif-bar"></div>';
+  d.onclick=function(){d.classList.add('out');setTimeout(function(){if(d.parentNode)d.parentNode.removeChild(d);},350);};
+  stack.appendChild(d);
+  setTimeout(function(){if(d.parentNode){d.classList.add('out');setTimeout(function(){if(d.parentNode)d.parentNode.removeChild(d);},350);}},dur);
+}
+
+// ═══════════════════════
+// LIVE ACTIVITY FEED
+// ═══════════════════════
+var FEED=[
+  {icon:'🟢',txt:'Nuevo pedido — Shorts Earth · Talla M · Barcelona',ago:'ahora'},
+  {icon:'👁',txt:'47 visitantes activos en delye.co',ago:'1m'},
+  {icon:'🟢',txt:'Nuevo pedido — Hoodie Monogram · Talla M · Madrid',ago:'2m'},
+  {icon:'⚠️',txt:'Stock bajo — Tee Core Black (3 uds disponibles)',ago:'4m'},
+  {icon:'🟢',txt:'Nuevo pedido — Summer Mystery Box · Talla S',ago:'6m'},
+  {icon:'🟢',txt:'Nuevo pedido — Varsity Jacket Black · Talla L',ago:'9m'},
+  {icon:'🔄',txt:'Shopify sync completado — 730 pedidos actualizados',ago:'12m'},
+  {icon:'👁',txt:'62 visitantes activos — página Denim Jacket',ago:'14m'},
+  {icon:'🟢',txt:'Nuevo pedido — Shorts Monogram · Talla M · Valencia',ago:'18m'},
+  {icon:'⚠️',txt:'Oversold: Varsity Jacket Black (-123 uds)',ago:'22m'},
+  {icon:'🟢',txt:'Nuevo pedido — Denim Jacket Black · Talla S',ago:'25m'},
+  {icon:'💬',txt:'Nuevo review 5★ — "Calidad brutal, repetiremos"',ago:'31m'},
+];
+var _feedIdx=0;
+function renderFeed(){
+  var list=document.getElementById('act-list');if(!list)return;
+  list.innerHTML=FEED.slice(0,8).map(function(e,i){
+    var dot=e.icon==='🟢'?'#4ade80':e.icon==='⚠️'?'#f87171':e.icon==='💬'?'#c9a96e':'#60a5fa';
+    return '<div class="act-item" style="animation-delay:'+(i*.04)+'s"><div class="act-dot" style="background:'+dot+'"></div><div class="act-txt">'+e.txt+'</div><div class="act-time">'+e.ago+'</div></div>';
+  }).join('');
+}
+renderFeed();
+setInterval(function(){
+  var evt=FEED[_feedIdx%FEED.length];
+  evt.ago='ahora';
+  FEED.forEach(function(e,i){if(i>0){var m=parseInt(e.ago)||0;e.ago=(m+2)+'m';}});
+  FEED.unshift(FEED.pop());
+  _feedIdx++;
+  renderFeed();
+  if(Math.random()>.55)pushNotif(evt.icon==='🟢'?'🛍':'ℹ️',evt.icon==='🟢'?'Nuevo pedido':'Actividad Delyé',evt.txt);
+},14000);
+
+// ═══════════════════════
+// SCROLL REVEAL
+// ═══════════════════════
+(function(){
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.metric,.card,.act-feed').forEach(function(el){
+    el.classList.add('reveal');io.observe(el);
+  });
+})();
+
+// ═══════════════════════
+// PARTICLE CANVAS (subtle)
+// ═══════════════════════
+(function(){
+  var canvas=document.getElementById('particle-canvas');if(!canvas)return;
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  var ctx=canvas.getContext('2d');
+  var W=canvas.width,H=canvas.height;
+  var pts=Array.from({length:38},function(){return{x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.18,vy:(Math.random()-.5)*.12,r:Math.random()*1+.4,a:Math.random()*.4+.1};});
+  window.addEventListener('resize',function(){canvas.width=W=window.innerWidth;canvas.height=H=window.innerHeight;});
+  (function loop(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(function(p){
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(240,237,232,'+p.a+')';ctx.fill();
+    });
+    requestAnimationFrame(loop);
+  })();
+})();
+
+// ═══════════════════════
+// WELCOME NOTIFICATION
+// ═══════════════════════
+setTimeout(function(){
+  var h=new Date().getHours();
+  var msg=h<6?'Trabajando en las horas quiet.':h<13?'Buen día para construir algo grande.':h<20?'La marca sigue creciendo.':'Modo nocturno. Hora de crear.';
+  pushNotif('⚡','Delyé OS',msg,5000);
+},1800);
 </script>
 </body>
 </html>
