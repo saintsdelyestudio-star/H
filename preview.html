@@ -30,7 +30,6 @@ input[type="radio"].pr{display:none}
 #r-team:checked~.layout #p-team,
 #r-collab:checked~.layout #p-collab,
 #r-mood:checked~.layout #p-mood{display:block;animation:fu .28s ease}
-#r-ai:checked~.layout #p-ai{display:block;animation:fu .28s ease}
 @keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* Active nav label */
@@ -52,8 +51,6 @@ input[type="radio"].pr{display:none}
 #r-team:checked~.layout label[for="r-team"]::before,
 #r-collab:checked~.layout label[for="r-collab"]::before,
 #r-mood:checked~.layout label[for="r-mood"]::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:16px;background:var(--text);border-radius:0 3px 3px 0}
-#r-ai:checked~.layout label[for="r-ai"]{background:var(--s2);color:var(--text)}
-#r-ai:checked~.layout label[for="r-ai"]::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:16px;background:var(--text);border-radius:0 3px 3px 0}
 
 /* SIDEBAR */
 .sidebar{width:232px;min-width:232px;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:20px 0 14px;height:100vh;overflow-y:auto}
@@ -169,19 +166,79 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
 .finput:focus{border-color:var(--s3)}.finput option{background:var(--s2)}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 
+/* CALENDAR */
+.cal-dows{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:7px}
+.cal-dow{font-size:9.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;font-weight:700;text-align:center;padding:4px 0}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cal-cell{aspect-ratio:1/1;background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:6px;cursor:pointer;display:flex;flex-direction:column;gap:3px;transition:all .14s;position:relative;overflow:hidden}
+.cal-cell:hover{background:var(--s3);border-color:#333;transform:translateY(-1px)}
+.cal-cell.empty{background:transparent;border-color:transparent;cursor:default;pointer-events:none}
+.cal-cell.today{border-color:var(--text);background:#1d1d1d}
+.cal-cell.today .cal-num{color:var(--text);font-weight:700}
+.cal-cell.selected{border-color:var(--gold);background:rgba(201,169,110,.07)}
+.cal-cell.has-task{border-color:#2a2a2a}
+.cal-num{font-size:11px;font-weight:600;color:var(--text2)}
+.cal-dots{display:flex;gap:2px;flex-wrap:wrap;margin-top:auto}
+.cal-dot{width:5px;height:5px;border-radius:50%}
+.cal-task-mini{font-size:9.5px;color:var(--text);background:var(--s3);padding:1px 4px;border-radius:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.3}
+.cal-task-mini.done{text-decoration:line-through;color:var(--text3)}
+.cal-cell .cal-more{font-size:9px;color:var(--text3);font-weight:600}
+.day-task{display:flex;align-items:center;gap:9px;background:var(--s2);border:1px solid var(--border);border-radius:7px;padding:8px 10px;cursor:pointer;transition:background .12s}
+.day-task:hover{background:var(--s3)}
+
 /* SHOPIFY BADGE */
 .shopify-live{display:inline-flex;align-items:center;gap:5px;font-size:10px;color:#95bf47;font-weight:600;padding:3px 9px;border-radius:99px;background:rgba(149,191,71,.1);border:1px solid rgba(149,191,71,.2)}
 .dot-live{width:6px;height:6px;border-radius:50%;background:#95bf47;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* AI CHAT */
-.ai-msg{display:flex;gap:10px;align-items:flex-start}
-.ai-msg.ai-user{flex-direction:row-reverse}
-.ai-avatar{width:32px;height:32px;border-radius:50%;background:var(--s3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;color:var(--text)}
-.ai-msg.ai-bot .ai-avatar{background:var(--text);color:var(--bg)}
-.ai-bubble{background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:11px 14px;font-size:13px;line-height:1.6;color:var(--text);max-width:85%;white-space:pre-wrap}
-.ai-msg.ai-user .ai-bubble{background:var(--s3);border-color:var(--s3)}
+/* CAMPAIGN HERO STRIP */
+.hero-strip{
+  position:relative; width:100%; height:260px;
+  border-radius:14px; overflow:hidden;
+  margin-bottom:22px; display:flex; gap:2px;
+}
+.hero-strip .hs-panel{
+  flex:1; position:relative; overflow:hidden;
+  transition:flex .5s cubic-bezier(.4,0,.2,1);
+}
+.hero-strip .hs-panel:hover{ flex:1.8; }
+.hero-strip .hs-panel img{
+  width:100%; height:100%; object-fit:cover;
+  object-position:top center;
+  filter:brightness(.55) saturate(.9);
+  transition:filter .4s ease, transform .6s ease;
+}
+.hero-strip .hs-panel:hover img{ filter:brightness(.65) saturate(1); transform:scale(1.04); }
+.hero-strip .hs-overlay{
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(9,9,9,.85) 0%, transparent 60%);
+  pointer-events:none;
+}
+.hero-strip .hs-label{
+  position:absolute; bottom:14px; left:14px;
+  font-size:10px; font-weight:700; color:rgba(240,237,232,.5);
+  text-transform:uppercase; letter-spacing:.1em;
+  transition:color .3s;
+}
+.hero-strip .hs-panel:hover .hs-label{ color:var(--text); }
+.hero-strip .hs-badge{
+  position:absolute; bottom:14px; right:14px;
+  font-size:9.5px; color:var(--text); opacity:0;
+  transition:opacity .3s; letter-spacing:.06em;
+}
+.hero-strip .hs-panel:hover .hs-badge{ opacity:.6; }
 
+/* EDITORIAL WATERMARK */
+.hero-strip .hs-watermark{
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  font-size:60px; font-weight:700; letter-spacing:-3px;
+  color:rgba(255,255,255,.06); pointer-events:none;
+  white-space:nowrap; font-style:italic;
+}
+
+/* PHOTO CARD in Moodboard */
+.mc-photo img{ width:100%; display:block; aspect-ratio:3/4; object-fit:cover; filter:brightness(.85) saturate(.9); transition:filter .3s; }
+.mc-photo:hover img{ filter:brightness(.95) saturate(1); }
 </style>
 </head>
 <body>
@@ -195,7 +252,6 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
 <input type="radio" class="pr" name="p" id="r-team" />
 <input type="radio" class="pr" name="p" id="r-collab" />
 <input type="radio" class="pr" name="p" id="r-mood" />
-<input type="radio" class="pr" name="p" id="r-ai" />
 
 <div class="layout">
 
@@ -228,11 +284,6 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
     <label class="nl" for="r-team"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4" stroke-width="1.8"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2M16 3.13a4 4 0 010 7.75M21 21v-2a4 4 0 00-3-3.87"/></svg>Equipo</label>
     <label class="nl" for="r-collab"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>Colaboradores</label>
     <label class="nl" for="r-mood"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>Moodboard</label>
-    <div class="ngl">IA</div>
-    <label class="nl" for="r-ai">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
-      Asistente IA
-    </label>
   </div>
 
   <div class="sb-bottom">
@@ -251,6 +302,35 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
       <div style="font-size:12px;color:var(--text2)">Lunes 18 de mayo, 2026 · Delyé Admin</div>
     </div>
     <div class="shopify-live"><div class="dot-live"></div>Shopify Live · delye.co</div>
+  </div>
+
+  <!-- CAMPAIGN HERO STRIP — fotos reales de shooting Delyé -->
+  <div class="hero-strip">
+    <div class="hs-panel">
+      <img src="https://cdn.shopify.com/s/files/1/0908/6124/0705/files/foto_coleccion.jpg?v=1753209479" alt="Delyé Campaign" loading="lazy" />
+      <div class="hs-overlay"></div>
+      <div class="hs-label">Made for Difference</div>
+      <div class="hs-badge">delye.co</div>
+    </div>
+    <div class="hs-panel">
+      <img src="https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard6.png?v=1755725671" alt="Delyé Shooting" loading="lazy" />
+      <div class="hs-overlay"></div>
+      <div class="hs-label">SS26 Campaign</div>
+      <div class="hs-badge">Saints Delyé Studio</div>
+    </div>
+    <div class="hs-panel">
+      <img src="https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard1.png?v=1755725671" alt="Delyé Editorial" loading="lazy" />
+      <div class="hs-overlay"></div>
+      <div class="hs-label">Editorial</div>
+      <div class="hs-badge">Nil Cortés</div>
+    </div>
+    <div class="hs-panel">
+      <img src="https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard10.png?v=1755725722" alt="Delyé Lookbook" loading="lazy" />
+      <div class="hs-overlay"></div>
+      <div class="hs-label">Lookbook</div>
+      <div class="hs-badge">730 pedidos</div>
+    </div>
+    <div class="hs-watermark">SD</div>
   </div>
 
   <div class="metrics m4">
@@ -320,15 +400,57 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
   </div>
 </div>
 
-<!-- ─── TASKS ─── -->
+<!-- ─── TASKS / CALENDAR ─── -->
 <div id="p-tasks" class="page">
-  <div class="ptitle">Tasks</div>
-  <div class="psub">Planificación y seguimiento interno de Delyé</div>
-  <div class="tb">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px">
+    <div>
+      <div class="ptitle">Calendario & Tasks</div>
+      <div class="psub" style="margin-bottom:0">Planificación interna de Delyé — click en cualquier día para añadir tarea</div>
+    </div>
     <button class="btn bw" onclick="openModal()">+ Nueva tarea</button>
-    <input class="search" placeholder="Buscar tarea..." id="tsearch" oninput="renderTasks()" />
   </div>
-  <div id="tlist"></div>
+
+  <!-- Stats -->
+  <div class="metrics m4" style="margin-bottom:20px">
+    <div class="metric"><div class="ml">Tareas Totales</div><div class="mv" id="cal-total">0</div><div class="mt" style="color:var(--text2)">Todas</div></div>
+    <div class="metric"><div class="ml">Pendientes</div><div class="mv" id="cal-pend" style="color:var(--gold)">0</div><div class="mt" style="color:var(--text2)">Por completar</div></div>
+    <div class="metric"><div class="ml">Completadas</div><div class="mv" id="cal-done" style="color:var(--green)">0</div><div class="mt up">Hechas</div></div>
+    <div class="metric"><div class="ml">Alta Prioridad</div><div class="mv" id="cal-high" style="color:var(--red)">0</div><div class="mt dn">Urgentes</div></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 340px;gap:16px">
+    <!-- CALENDAR -->
+    <div class="card" style="padding:18px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <button class="btn bo2" onclick="calNav(-1)" style="padding:5px 11px;font-size:15px;line-height:1">&lsaquo;</button>
+          <div id="cal-title" style="font-size:15px;font-weight:650;letter-spacing:-.2px;min-width:170px;text-align:center;text-transform:capitalize"></div>
+          <button class="btn bo2" onclick="calNav(1)" style="padding:5px 11px;font-size:15px;line-height:1">&rsaquo;</button>
+        </div>
+        <button class="btn bo2" onclick="calToday()" style="font-size:11.5px">Hoy</button>
+      </div>
+      <div class="cal-dows">
+        <div class="cal-dow">Lun</div><div class="cal-dow">Mar</div><div class="cal-dow">Mié</div><div class="cal-dow">Jue</div><div class="cal-dow">Vie</div><div class="cal-dow">Sáb</div><div class="cal-dow">Dom</div>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+    </div>
+
+    <!-- DAY DETAIL -->
+    <div class="card" style="padding:18px">
+      <div class="ct" id="cal-day-title" style="margin-bottom:14px">Selecciona un día</div>
+      <div id="cal-day-tasks" style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px"></div>
+      <button class="btn bw" id="cal-day-add" onclick="openModalForDay()" style="width:100%;justify-content:center;display:none">+ Añadir tarea ese día</button>
+    </div>
+  </div>
+
+  <!-- All tasks list -->
+  <div class="card" style="margin-top:16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div class="ct" style="margin:0">Todas las tareas</div>
+      <input class="search" placeholder="Buscar..." id="tsearch" oninput="renderTasks()" style="width:180px" />
+    </div>
+    <div id="tlist"></div>
+  </div>
 </div>
 
 <!-- ─── INVENTARIO ─── -->
@@ -337,7 +459,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
     <div class="ptitle">Inventario</div>
     <span class="shopify-live"><div class="dot-live"></div>Shopify Sync</span>
   </div>
-  <div class="psub">Stock exacto por talla — datos en tiempo real de Shopify</div>
+  <div class="psub">Stock real de delye.co — 33 productos activos/archivados</div>
 
   <div class="metrics m4">
     <div class="metric"><div class="ml">Productos Activos</div><div class="mv">18</div><div class="mt" style="color:var(--text2)">En venta ahora</div></div>
@@ -535,6 +657,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
   <div class="psub">Referencias visuales e inspiración creativa de Delyé</div>
   <div class="tb">
     <button class="btn bw" id="mf-all" onclick="setMF('all',this)">Todo</button>
+    <button class="btn bo2" id="mf-shooting" onclick="setMF('shooting',this)">Shooting</button>
     <button class="btn bo2" id="mf-palette" onclick="setMF('palette',this)">Paleta</button>
     <button class="btn bo2" id="mf-ref" onclick="setMF('ref',this)">Referencia</button>
     <button class="btn bo2" id="mf-prod" onclick="setMF('prod',this)">Producto</button>
@@ -542,58 +665,6 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
     <button class="btn bw" style="margin-left:auto" onclick="alert('Disponible en producción')">+ Añadir</button>
   </div>
   <div class="mg" id="mgrid"></div>
-</div>
-
-<!-- ─── AI ASSISTANT ─── -->
-<div id="p-ai" class="page">
-  <div style="margin-bottom:28px">
-    <div class="ptitle">Asistente IA — Delyé</div>
-    <div class="psub">Pregúntame cualquier cosa sobre tu tienda</div>
-  </div>
-
-  <div style="display:grid;grid-template-columns:1fr 340px;gap:16px;height:calc(100vh - 160px)">
-    <!-- Chat -->
-    <div class="card" style="display:flex;flex-direction:column;padding:0;overflow:hidden;height:100%">
-      <div id="ai-msgs" style="flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px">
-        <div class="ai-msg ai-bot">
-          <div class="ai-avatar">D</div>
-          <div class="ai-bubble">Hola Aimar, soy el asistente de Delyé. Tengo acceso a todos los datos de tu tienda: inventario, ventas, pedidos, clientes y más. ¿En qué te puedo ayudar?</div>
-        </div>
-      </div>
-      <div style="padding:14px;border-top:1px solid var(--border);display:flex;gap:10px">
-        <input id="ai-input" class="search" style="flex:1;width:auto" placeholder="Ej: ¿Cuál es el stock del Varsity Black?  /  ¿Cuánto hemos vendido?  /  ¿Qué talla vende más?" onkeydown="if(event.key==='Enter')aiSend()" />
-        <button class="btn bw" onclick="aiSend()">Enviar</button>
-      </div>
-    </div>
-
-    <!-- Quick questions sidebar -->
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <div class="card" style="padding:16px">
-        <div class="ct">Preguntas rápidas</div>
-        <div style="display:flex;flex-direction:column;gap:7px">
-          <button class="btn bo2" style="text-align:left;justify-content:flex-start;font-size:12px" onclick="aiAsk('¿Cuánto stock tenemos en total?')">¿Cuánto stock tenemos?</button>
-          <button class="btn bo2" style="text-align:left;justify-content:flex-start;font-size:12px" onclick="aiAsk('¿Qué productos están oversold?')">¿Qué está oversold?</button>
-          <button class="btn bo2" style="text-align:left;justify-content:flex-start;font-size:12px" onclick="aiAsk('¿Cuáles son las ventas totales?')">Ventas totales</button>
-          <button class="btn bo2" style="text-align:left;justify-content:flex-start;font-size:12px" onclick="aiAsk('¿Quiénes son nuestros mejores clientes?')">Mejores clientes</button>
-          <button class="btn bo2" style="text-align:left;justify-content:flex-start;font-size:12px" onclick="aiAsk('¿Qué producto tiene más stock?')">Producto con más stock</button>
-          <button class="btn bo2" style="text-align:left;justify-content:flex-start;font-size:12px" onclick="aiAsk('¿Cuántos pedidos tenemos en total?')">Total pedidos</button>
-          <button class="btn bo2" style="text-align:left;justify-content:flex-start;font-size:12px" onclick="aiAsk('Dame un resumen del negocio')">Resumen del negocio</button>
-          <button class="btn bo2" style="text-align:left;justify-content:flex-start;font-size:12px" onclick="aiAsk('¿Qué talla vende más?')">¿Qué talla vende más?</button>
-        </div>
-      </div>
-      <div class="card" style="padding:16px">
-        <div class="ct">Datos cargados</div>
-        <div style="font-size:12px;color:var(--text2);line-height:2">
-          <div>✓ 25 productos activos</div>
-          <div>✓ 730 pedidos totales</div>
-          <div>✓ €114,591 en ventas</div>
-          <div>✓ 13 clientes top</div>
-          <div>✓ Stock por talla</div>
-          <div>✓ Finanzas mensuales</div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
 </main>
@@ -663,14 +734,14 @@ var products = [
   {n:'Denim Pants Black',         p:'€89',  xs:0, s:-12,m:-28,l:-25,xl:-3, status:'ACTIVE'},
 ];
 
-// Real collections/drops
+// Real collections/drops with real Shopify CDN cover images
 var drops = [
-  {n:'Summer 2026 — Mystery Box', date:'May 2026',  status:'Live',      rev:'€1,109',   orders:11,  bg:'linear-gradient(135deg,#1a1a2e,#16213e)', desc:'Mystery Boxes verano activas'},
-  {n:'Made for Difference V2',    date:'Dic 2025',  status:'Activo',    rev:'€40,000+', orders:250, bg:'linear-gradient(135deg,#0a0a0a,#1a1a1a)', desc:'Denim, Varsity, Hoodies, Long Sleeves'},
-  {n:'The Archive',               date:'Oct 2025',  status:'Archivado', rev:'€62,998',  orders:440, bg:'linear-gradient(135deg,#111,#222)',        desc:'Drop masivo Nov 2025 — Tracksuits & Sets'},
-  {n:'Made for Difference V1',    date:'Oct 2025',  status:'Archivado', rev:'€9,013',   orders:58,  bg:'linear-gradient(135deg,#0d0d0d,#181818)',  desc:'Primera colección Delyé — Tracksuits'},
-  {n:'Best Sellers',              date:'Permanent', status:'Activo',    rev:'Ongoing',  orders:'-', bg:'linear-gradient(135deg,#0f0f0f,#1c1c1c)',  desc:'6 productos seleccionados'},
-  {n:'Denim Collection',          date:'Dic 2025',  status:'Activo',    rev:'€27,000+', orders:200, bg:'linear-gradient(135deg,#0a0f1a,#111827)',  desc:'Denim Jacket, Pants, Sets en 3 colores'},
+  {n:'Summer 2026 — Mystery Box', date:'May 2026',  status:'Live',      rev:'€1,109',   orders:11,  img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/collections/summerdrop.png',     desc:'Mystery Boxes verano activas'},
+  {n:'Made for Difference V2',    date:'Dic 2025',  status:'Activo',    rev:'€40,000+', orders:250, img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/collections/hy.png',             desc:'Denim, Varsity, Hoodies, Long Sleeves'},
+  {n:'The Archive',               date:'Oct 2025',  status:'Archivado', rev:'€62,998',  orders:440, img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard12.png?v=1755725722',           desc:'Drop masivo Nov 2025 — Tracksuits & Sets'},
+  {n:'Made for Difference V1',    date:'Oct 2025',  status:'Archivado', rev:'€9,013',   orders:58,  img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/collections/coleccion_04a62b2d-13b2-4a4b-8feb-9a2d376da8c6.png', desc:'Primera colección Delyé — Tracksuits'},
+  {n:'Best Sellers',              date:'Permanent', status:'Activo',    rev:'Ongoing',  orders:'-', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard3.png?v=1755725671',            desc:'6 productos seleccionados'},
+  {n:'Denim Collection',          date:'Dic 2025',  status:'Activo',    rev:'€27,000+', orders:200, img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard6_60aca24c-7a09-44b2-8e0c-704350b895a0.png', desc:'Denim Jacket, Pants, Sets en 3 colores'},
 ];
 
 // Real customers sorted by spend
@@ -705,9 +776,9 @@ var tasks = [
   {id:9, t:'Planificar Drop Made for Diff V3',    cat:'Drop',     p:'Media', d:'2026-07-01', done:false},
 ];
 
+var pc={'Alta':'#f87171','Media':'#c9a96e','Baja':'#404040'};
 function renderTasks(){
   var q=(document.getElementById('tsearch')||{value:''}).value.toLowerCase();
-  var pc={'Alta':'#f87171','Media':'#c9a96e','Baja':'#404040'};
   document.getElementById('tlist').innerHTML=tasks.filter(function(t){return t.t.toLowerCase().indexOf(q)>-1;}).map(function(t){
     return '<div class="ti" onclick="toggleTask('+t.id+')">'
       +'<div class="tc2'+(t.done?' done':'')+'">'+( t.done?'✓':'')+'</div>'
@@ -716,16 +787,109 @@ function renderTasks(){
       +'<span class="badge bgr" style="font-size:9.5px">'+t.cat+'</span>'
       +'<span style="font-size:10.5px;color:var(--text3)">'+t.d+'</span>'
       +'<div style="width:6px;height:6px;border-radius:50%;background:'+pc[t.p]+';flex-shrink:0"></div>'
+      +'<button class="btn bo2" style="padding:3px 7px;font-size:10px" onclick="delTask(event,'+t.id+')">×</button>'
       +'</div></div>';
-  }).join('');
+  }).join('')||'<div style="padding:20px;text-align:center;color:var(--text3);font-size:12px">No hay tareas</div>';
+  renderCalStats();
 }
-function toggleTask(id){tasks=tasks.map(function(t){return t.id===id?Object.assign({},t,{done:!t.done}):t;});renderTasks();}
-function openModal(){document.getElementById('tmodal').classList.add('open');}
+function delTask(e,id){e.stopPropagation();tasks=tasks.filter(function(t){return t.id!==id;});renderAll();}
+function toggleTask(id){tasks=tasks.map(function(t){return t.id===id?Object.assign({},t,{done:!t.done}):t;});renderAll();}
+function openModal(){document.getElementById('tmodal').classList.add('open');document.getElementById('td').value=calSelected||'';setTimeout(function(){document.getElementById('ti').focus();},50);}
+function openModalForDay(){document.getElementById('td').value=calSelected;openModal();}
 function closeModal(){document.getElementById('tmodal').classList.remove('open');}
 function addTask(){
   var t=document.getElementById('ti').value.trim();if(!t)return;
   tasks.unshift({id:Date.now(),t:t,cat:document.getElementById('tc3').value,p:document.getElementById('tp').value,d:document.getElementById('td').value||'2026-06-30',done:false});
-  renderTasks();closeModal();document.getElementById('ti').value='';
+  closeModal();document.getElementById('ti').value='';
+  renderAll();
+}
+function renderAll(){renderTasks();renderCalendar();renderDaySidebar();}
+
+// ═══════════════════════
+// CALENDAR
+// ═══════════════════════
+var calView=new Date(2026,4,1); // mayo 2026
+var calSelected=null;
+var MONTHS=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+var TODAY_STR='2026-05-23';
+
+function pad(n){return n<10?'0'+n:''+n;}
+function dateStr(y,m,d){return y+'-'+pad(m+1)+'-'+pad(d);}
+
+function calNav(dir){calView=new Date(calView.getFullYear(),calView.getMonth()+dir,1);renderCalendar();}
+function calToday(){calView=new Date(2026,4,1);calSelected=TODAY_STR;renderAll();}
+
+function renderCalendar(){
+  var y=calView.getFullYear(),m=calView.getMonth();
+  document.getElementById('cal-title').textContent=MONTHS[m]+' '+y;
+  var first=new Date(y,m,1);
+  var firstDow=(first.getDay()+6)%7; // Mon=0
+  var daysInMonth=new Date(y,m+1,0).getDate();
+  var prevDays=new Date(y,m,0).getDate();
+  var html='';
+  // Prev month padding
+  for(var i=firstDow-1;i>=0;i--){
+    html+='<div class="cal-cell empty"></div>';
+  }
+  // Current month
+  for(var d=1;d<=daysInMonth;d++){
+    var ds=dateStr(y,m,d);
+    var dayTasks=tasks.filter(function(t){return t.d===ds;});
+    var isToday=(ds===TODAY_STR);
+    var isSel=(ds===calSelected);
+    var cls='cal-cell'+(isToday?' today':'')+(isSel?' selected':'')+(dayTasks.length?' has-task':'');
+    var miniHtml='';
+    var show=dayTasks.slice(0,2);
+    show.forEach(function(t){
+      miniHtml+='<div class="cal-task-mini'+(t.done?' done':'')+'" style="border-left:2px solid '+pc[t.p]+'">'+escapeHtml(t.t)+'</div>';
+    });
+    if(dayTasks.length>2){miniHtml+='<div class="cal-more">+'+(dayTasks.length-2)+' más</div>';}
+    html+='<div class="'+cls+'" onclick="calSelect(\''+ds+'\')">'
+      +'<div class="cal-num">'+d+'</div>'
+      +miniHtml
+      +'</div>';
+  }
+  document.getElementById('cal-grid').innerHTML=html;
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+
+function calSelect(ds){calSelected=ds;renderCalendar();renderDaySidebar();}
+
+function renderDaySidebar(){
+  var el=document.getElementById('cal-day-tasks');
+  var title=document.getElementById('cal-day-title');
+  var addBtn=document.getElementById('cal-day-add');
+  if(!calSelected){title.textContent='Selecciona un día';el.innerHTML='<div style="font-size:12px;color:var(--text3);text-align:center;padding:14px 0">Haz click en un día del calendario para ver o añadir tareas.</div>';addBtn.style.display='none';return;}
+  var parts=calSelected.split('-');
+  var d=new Date(parseInt(parts[0]),parseInt(parts[1])-1,parseInt(parts[2]));
+  var dow=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][d.getDay()];
+  title.textContent=dow+', '+parseInt(parts[2])+' '+MONTHS[parseInt(parts[1])-1].toLowerCase();
+  var dayTasks=tasks.filter(function(t){return t.d===calSelected;});
+  if(!dayTasks.length){
+    el.innerHTML='<div style="font-size:12px;color:var(--text3);text-align:center;padding:10px 0">Sin tareas este día</div>';
+  }else{
+    el.innerHTML=dayTasks.map(function(t){
+      return '<div class="day-task" onclick="toggleTask('+t.id+')">'
+        +'<div class="tc2'+(t.done?' done':'')+'" style="width:14px;height:14px;font-size:8px">'+(t.done?'✓':'')+'</div>'
+        +'<div style="flex:1;font-size:12px;'+(t.done?'text-decoration:line-through;color:var(--text3)':'')+'">'+escapeHtml(t.t)+'</div>'
+        +'<span class="badge bgr" style="font-size:9px">'+t.cat+'</span>'
+        +'<div style="width:5px;height:5px;border-radius:50%;background:'+pc[t.p]+'"></div>'
+        +'</div>';
+    }).join('');
+  }
+  addBtn.style.display='flex';
+}
+
+function renderCalStats(){
+  var total=tasks.length;
+  var done=tasks.filter(function(t){return t.done;}).length;
+  var pend=total-done;
+  var high=tasks.filter(function(t){return t.p==='Alta'&&!t.done;}).length;
+  var el;
+  if(el=document.getElementById('cal-total'))el.textContent=total;
+  if(el=document.getElementById('cal-pend'))el.textContent=pend;
+  if(el=document.getElementById('cal-done'))el.textContent=done;
+  if(el=document.getElementById('cal-high'))el.textContent=high;
 }
 
 // ═══════════════════════
@@ -739,7 +903,7 @@ function renderInv(){
     var lbl=neg?'Oversold':total===0?'Agotado':total<5?'Stock Bajo':'OK';
     var sfcls=neg?'sl':total===0?'sl':total<5?'sm':'sh';
     var pct=Math.min(100,Math.max(0,total/50*100));
-    function td(v){return '<td style="'+(v<0?'color:var(--red)':v===0?'color:var(--text3)':'color:var(--green)')+'">'+v+'</td>';}
+    function td(v){return '<td style="'+(v<0?'color:var(--red)':v===0?'color:var(--text3)':'')+'">'+v+'</td>';}
     return '<tr><td>'+p.n+'</td><td style="color:var(--text2)">'+p.p+'</td>'
       +td(p.xs)+td(p.s)+td(p.m)+td(p.l)+td(p.xl)
       +'<td><span style="font-weight:600;color:var(--text)">'+total+'</span>'
@@ -755,8 +919,10 @@ function renderDrops(){
   var sm={'Live':'bg','Activo':'bg','Archivado':'bgr'};
   document.getElementById('dropsgrid').innerHTML=drops.map(function(d){
     return '<div class="dc">'
-      +'<div style="height:140px;background:'+d.bg+';display:flex;align-items:center;justify-content:center">'
-      +'<div style="font-size:20px;font-weight:700;letter-spacing:-1px;color:rgba(240,237,232,.45);font-style:italic;text-align:center;padding:0 16px">'+d.n+'</div>'
+      +'<div style="height:140px;overflow:hidden;position:relative">'
+      +'<img src="'+d.img+'" alt="'+d.n+'" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:top center;filter:brightness(.7) saturate(.9);transition:filter .3s,transform .4s" onmouseover="this.style.filter=\'brightness(.85) saturate(1)\';this.style.transform=\'scale(1.04)\'" onmouseout="this.style.filter=\'brightness(.7) saturate(.9)\';this.style.transform=\'\'" />'
+      +'<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(9,9,9,.7) 0%,transparent 60%)"></div>'
+      +'<div style="position:absolute;bottom:10px;left:12px;font-size:16px;font-weight:700;letter-spacing:-.5px;color:rgba(240,237,232,.9);font-style:italic">'+d.n.split(' ').slice(0,2).join(' ')+'</div>'
       +'</div>'
       +'<div class="dbody">'
       +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">'
@@ -806,16 +972,21 @@ function renderFinTable(){
 // MOODBOARD
 // ═══════════════════════
 var moodItems=[
-  {cat:'palette', bg:'#0a0a0a',       h:80, title:'Negro Profundo',           text:'Base visual de toda la marca. Deep black #0a0a0a.'},
-  {cat:'palette', bg:'#f5f5f0',       h:80, title:'Off White',                text:'Contraste principal. Etiquetas, textos destacados.'},
-  {cat:'palette', bg:'#c9a96e',       h:80, title:'Gold Accent',              text:'Detalles premium. Monogramas, bordados.'},
-  {cat:'palette', bg:'#3d3d3d',       h:80, title:'Gris Cemento',             text:'Tono medio. Fondos de shooting, tags.'},
-  {cat:'ref',     bg:'#111',          h:65, title:'Referencia — Denim Drop',  text:'Raw denim minimalista. Cortes estructurados.'},
-  {cat:'ref',     bg:'#0d0d0d',       h:65, title:'Referencia — Varsity',     text:'College aesthetic reinterpretado. Premium feel.'},
-  {cat:'prod',    bg:'#161616',       h:70, title:'Hoodie Monogram',          text:'Best seller constante. Stock M:18, L:1.'},
-  {cat:'prod',    bg:'#111',          h:70, title:'Shorts Earth',             text:'Mayor stock activo. M:21, S:9, L:6.'},
-  {cat:'idea',    bg:'#0a0a0a',       h:60, title:'Drop AW26',               text:'Colección otoño/invierno 2026. En planificación.'},
-  {cat:'idea',    bg:'#0f0f0f',       h:60, title:'Made for Difference V3',  text:'Continuación de la serie más exitosa.'},
+  // Real Delyé shooting photos
+  {cat:'shooting', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/foto_coleccion.jpg?v=1753209479',    title:'Shooting — Made for Difference', text:'Fondo cemento, iluminación editorial. Dirección de arte: Nil Cortés.'},
+  {cat:'shooting', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard1.png?v=1755725671',        title:'SS26 Campaign — Look 01',       text:'White tee + monogram shorts. Clean studio aesthetic.'},
+  {cat:'shooting', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard6.png?v=1755725671',        title:'SS26 Campaign — Look 02',       text:'Hoodie Monogram. Heavyweight cotton, embossed logo.'},
+  {cat:'shooting', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard10.png?v=1755725722',       title:'SS26 Campaign — Look 03',       text:'Editorial doble. Two models, Barcelona chair.'},
+  {cat:'shooting', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard12.png?v=1755725722',       title:'Lookbook — Archive Drop',       text:'Drop masivo Nov 2025 — 440 pedidos, €62,998.'},
+  {cat:'shooting', img:'https://cdn.shopify.com/s/files/1/0908/6124/0705/files/Artboard3.png?v=1755725671',        title:'Product Shot — SS26',           text:'Clean product photography on model. Studio setup.'},
+  // Palette & Ideas
+  {cat:'palette', bg:'#0a0a0a', h:75, title:'Paleta Principal — Delyé', text:'Negro profundo, gris cemento, blanco roto. Base visual de toda la marca.'},
+  {cat:'palette', bg:'#c9a96e', h:55, title:'Acento Dorado',             text:'Usado en etiquetas Saints Delyé Studio y detalles premium.'},
+  {cat:'palette', bg:'#1a1510', h:60, title:'Warm Neutral AW26',         text:'Earth tones para la próxima colección. Beige tostado, terracota.'},
+  {cat:'ref',     bg:'#111',    h:65, title:'Referencia — Denim Drop',   text:'Raw denim minimalista. Cortes estructurados, lavados oscuros.'},
+  {cat:'prod',    bg:'#131313', h:80, title:'Varsity Jacket Black',       text:'Best seller histórico. €13,595 en ventas · 116 pedidos.'},
+  {cat:'idea',    bg:'#0f0f0f', h:60, title:'Drop AW26 Concept',         text:'"Made for Difference V3" — Nuevas siluetas. Launch Q4 2026.'},
+  {cat:'idea',    bg:'#0d0d0d', h:55, title:'Mystery Box Premium AW26',  text:'Mystery Box €99+ con piezas exclusivas. Formato exitoso SS26.'},
 ];
 function setMF(cat,el){
   document.querySelectorAll('#p-mood .tb .btn').forEach(function(b){b.className='btn bo2';});
@@ -823,9 +994,11 @@ function setMF(cat,el){
 }
 function renderMood(cat){
   var items=cat==='all'?moodItems:moodItems.filter(function(i){return i.cat===cat;});
-  var cl={'palette':'Paleta','ref':'Referencia','prod':'Producto','idea':'Idea'};
+  var cl={'palette':'Paleta','ref':'Referencia','prod':'Producto','idea':'Idea','shooting':'Shooting'};
   document.getElementById('mgrid').innerHTML=items.map(function(it){
-    var visual='<div style="height:'+it.h+'px;background:'+it.bg+';transition:filter .3s"></div>';
+    var visual=it.img
+      ?'<img src="'+it.img+'" alt="'+it.title+'" loading="lazy" style="width:100%;display:block;aspect-ratio:3/4;object-fit:cover;object-position:top center;filter:brightness(.8) saturate(.9);transition:filter .3s ease,transform .4s ease;" onmouseover="this.style.filter=\'brightness(.95) saturate(1)\';this.style.transform=\'scale(1.03)\'" onmouseout="this.style.filter=\'brightness(.8) saturate(.9)\';this.style.transform=\'scale(1)\'" />'
+      :'<div style="height:'+it.h+'px;background:'+it.bg+';transition:filter .3s"></div>';
     return '<div class="mc" style="overflow:hidden">'
       +visual
       +'<div style="padding:12px">'
@@ -896,7 +1069,10 @@ function initCharts(){
 // ═══════════════════════
 // INIT
 // ═══════════════════════
+calSelected=TODAY_STR;
 renderTasks();
+renderCalendar();
+renderDaySidebar();
 renderInv();
 renderDrops();
 renderClients();
@@ -906,101 +1082,6 @@ setTimeout(initCharts,100);
 document.querySelectorAll('input[name="p"]').forEach(function(r){
   r.addEventListener('change',function(){setTimeout(initCharts,50);});
 });
-
-// ═══════════════════════
-// AI ASSISTANT
-// ═══════════════════════
-function aiAsk(q){document.getElementById('ai-input').value=q;aiSend();}
-function aiSend(){
-  var input=document.getElementById('ai-input');
-  var q=input.value.trim();if(!q)return;
-  input.value='';
-  var msgs=document.getElementById('ai-msgs');
-  msgs.innerHTML+='<div class="ai-msg ai-user"><div class="ai-avatar">A</div><div class="ai-bubble">'+q+'</div></div>';
-  setTimeout(function(){
-    var r=aiRespond(q.toLowerCase());
-    msgs.innerHTML+='<div class="ai-msg ai-bot"><div class="ai-avatar">D</div><div class="ai-bubble">'+r+'</div></div>';
-    msgs.scrollTop=msgs.scrollHeight;
-  },400);
-  msgs.scrollTop=msgs.scrollHeight;
-}
-function aiRespond(q){
-  // Stock total
-  if(q.match(/stock.*total|cuánto.*stock|total.*stock|inventario.*total/)){
-    var positiveItems=products.filter(function(p){return (p.xs+p.s+p.m+p.l+p.xl)>0;});
-    var totalUnits=positiveItems.reduce(function(acc,p){return acc+(p.xs+p.s+p.m+p.l+p.xl);},0);
-    var oversold=products.filter(function(p){return (p.xs+p.s+p.m+p.l+p.xl)<0;}).length;
-    return 'Stock total disponible: '+totalUnits+' unidades en '+positiveItems.length+' productos.\n\nProductos con stock positivo:\n'+positiveItems.map(function(p){var t=p.xs+p.s+p.m+p.l+p.xl;return '· '+p.n+': '+t+' uds';}).join('\n')+'\n\nAdemás hay '+oversold+' productos con inventario negativo (oversold).';
-  }
-  // Oversold
-  if(q.match(/oversold|negativo|agotado|sin stock/)){
-    var ov=products.filter(function(p){return (p.xs+p.s+p.m+p.l+p.xl)<0;});
-    return 'Hay '+ov.length+' productos con inventario negativo (oversold):\n\n'+ov.map(function(p){var t=p.xs+p.s+p.m+p.l+p.xl;return '· '+p.n+' ('+p.p+'): '+t+' uds\n  XS:'+p.xs+' S:'+p.s+' M:'+p.m+' L:'+p.l+' XL:'+p.xl;}).join('\n\n');
-  }
-  // Ventas totales
-  if(q.match(/ventas|ingresos|revenue|dinero|facturado|ganado/)){
-    return 'Ventas totales de delye.co: €114,591\n\nDesglose mensual:\n· Nov 2025: €66,500 (pico máximo — 422 pedidos)\n· Feb 2026: €20,745 (241 pedidos)\n· Dic 2025: €14,800 (154 pedidos)\n· Mar 2026: €7,920 (57 pedidos)\n· Abr 2026: €2,517 (25 pedidos)\n· May 2026: €1,109 (11 pedidos)\n\nAOV medio: €141.62\nTotal pedidos: 730';
-  }
-  // Pedidos
-  if(q.match(/pedidos|orders/)){
-    return 'Total pedidos: 730\n\nDistribución:\n· Nov 2025: 422 pedidos (mayor mes)\n· Feb 2026: 241 pedidos\n· Dic 2025: 154 pedidos\n· Mar 2026: 57 pedidos\n· Abr 2026: 25 pedidos\n· May 2026: 11 pedidos\n\nAOV (valor medio por pedido): €141.62';
-  }
-  // Clientes
-  if(q.match(/clientes|customers|compradores/)){
-    return 'Top clientes por gasto total:\n\n1. Turbo Turbo — €2,231 (2 pedidos)\n2. Héctor Fort — €962 (1 pedido)\n3. Marc Bernal — €609 (2 pedidos)\n4. Pedro Fernández — €367 (1 pedido)\n5. Landry Farrér — €367 (2 pedidos)\n6. Arabat Noor — €337 (1 pedido)\n7. Marc Guiu — €337 (1 pedido)\n8. Nil Cortés Gómez — €309 (2 pedidos)\n9. Jeremy Klinghammer — €218 (1 pedido)\n10. Jovvany Díaz Wilson — €218 (1 pedido)';
-  }
-  // Producto con más stock
-  if(q.match(/más stock|mayor stock|más unidades/)){
-    var sorted=products.slice().sort(function(a,b){return (b.xs+b.s+b.m+b.l+b.xl)-(a.xs+a.s+a.m+a.l+a.xl);});
-    var top=sorted.slice(0,5);
-    return 'Productos con más stock disponible:\n\n'+top.map(function(p,i){var t=p.xs+p.s+p.m+p.l+p.xl;return (i+1)+'. '+p.n+': '+t+' uds\n   XS:'+p.xs+' S:'+p.s+' M:'+p.m+' L:'+p.l+' XL:'+p.xl;}).join('\n\n');
-  }
-  // Varsity
-  if(q.match(/varsity/)){
-    var vb=products.find(function(p){return p.n.toLowerCase().indexOf('varsity black')>-1;});
-    var vg=products.find(function(p){return p.n.toLowerCase().indexOf('varsity jacket green')>-1;});
-    var vc=products.find(function(p){return p.n.toLowerCase().indexOf('varsity jacket cream')>-1;});
-    var res='Varsity Jacket Black (€129) — OVERSOLD\nXS:'+vb.xs+' S:'+vb.s+' M:'+vb.m+' L:'+vb.l+' XL:'+vb.xl+'\nTotal: '+(vb.xs+vb.s+vb.m+vb.l+vb.xl)+' uds';
-    if(vg)res+='\n\nVarsity Jacket Green (€129) — Sin stock (todo 0)';
-    if(vc)res+='\nVarsity Jacket Cream (€129) — Sin stock (todo 0)';
-    return res;
-  }
-  // Denim
-  if(q.match(/denim/)){
-    var denim=products.filter(function(p){return p.n.toLowerCase().indexOf('denim')>-1;});
-    return 'Productos Denim:\n\n'+denim.map(function(p){var t=p.xs+p.s+p.m+p.l+p.xl;return '· '+p.n+' ('+p.p+'): '+(t<0?t+' OVERSOLD':t===0?'Sin stock':t+' uds');}).join('\n');
-  }
-  // Hoodie
-  if(q.match(/hoodie/)){
-    var h=products.filter(function(p){return p.n.toLowerCase().indexOf('hoodie')>-1;});
-    return 'Hoodies:\n\n'+h.map(function(p){var t=p.xs+p.s+p.m+p.l+p.xl;return '· '+p.n+' ('+p.p+')\n  XS:'+p.xs+' S:'+p.s+' M:'+p.m+' L:'+p.l+' XL:'+p.xl+'\n  Total: '+(t<0?t+' (oversold)':t===0?'agotado':t+' uds');}).join('\n\n');
-  }
-  // Talla M / S / L
-  if(q.match(/talla.*m\b|talla media|más.*m\b/)||q.match(/qué talla/)){
-    var sizeS=products.reduce(function(a,p){return a+p.s;},0);
-    var sizeM=products.reduce(function(a,p){return a+p.m;},0);
-    var sizeL=products.reduce(function(a,p){return a+p.l;},0);
-    var sizeXS=products.reduce(function(a,p){return a+p.xs;},0);
-    var sizeXL=products.reduce(function(a,p){return a+p.xl;},0);
-    return 'Stock total por talla (activos):\n\nXS: '+sizeXS+' uds\nS: '+sizeS+' uds\nM: '+sizeM+' uds\nL: '+sizeL+' uds\nXL: '+sizeXL+' uds\n\nNota: los valores negativos son oversold. La talla M es claramente la más demandada históricamente, con mayor volumen de oversold.';
-  }
-  // Resumen
-  if(q.match(/resumen|overview|cómo va|qué tal/)){
-    return 'Resumen Delyé — Mayo 2026:\n\n💰 Ventas totales: €114,591\n📦 Pedidos: 730 (AOV €141.62)\n👥 Clientes: 700+\n📅 Mejor mes: Nov 2025 (€66,500)\n\nInventario:\n· Productos activos: 25\n· Con stock positivo: 8\n· Oversold: 10 productos\n· Sin stock (cero): 7\n\nTop productos por demanda:\n1. Denim Set Black (€62,998 · 388 pedidos)\n2. Varsity Jacket Black (oversold -123)\n3. Denim Jacket Black (oversold -85)\n\n⚠️ Prioridad: reponer Varsity Black, Denim Jacket Black y Denim Pants Black.';
-  }
-  // Shorts
-  if(q.match(/shorts|pantalon corto/)){
-    var sh=products.filter(function(p){return p.n.toLowerCase().indexOf('shorts')>-1;});
-    return 'Shorts:\n\n'+sh.map(function(p){var t=p.xs+p.s+p.m+p.l+p.xl;return '· '+p.n+' ('+p.p+')\n  XS:'+p.xs+' S:'+p.s+' M:'+p.m+' L:'+p.l+' XL:'+p.xl+'\n  Total: '+t+' uds';}).join('\n\n');
-  }
-  // Mystery box
-  if(q.match(/mystery|box/)){
-    var mb=products.filter(function(p){return p.n.toLowerCase().indexOf('mystery')>-1;});
-    return 'Mystery Boxes:\n\n'+mb.map(function(p){var t=p.xs+p.s+p.m+p.l+p.xl;return '· '+p.n+' ('+p.p+')\n  S:'+p.s+' M:'+p.m+' L:'+p.l+'\n  Stock neto: '+t+' uds';}).join('\n\n');
-  }
-  // Default
-  return 'No tengo esa información específica, pero puedo ayudarte con:\n\n· Stock por producto o talla\n· Ventas y pedidos totales\n· Clientes top\n· Estado de oversold\n· Resumen del negocio\n\n¿Quieres que busque algo concreto?';
-}
 </script>
 </body>
 </html>
