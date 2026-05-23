@@ -31,7 +31,8 @@ input[type="radio"].pr{display:none}
 #r-collab:checked~.layout #p-collab,
 #r-mood:checked~.layout #p-mood,
 #r-vault:checked~.layout #p-vault,
-#r-contacts:checked~.layout #p-contacts{display:block;animation:fu .28s ease}
+#r-contacts:checked~.layout #p-contacts,
+#r-hub:checked~.layout #p-hub{display:block;animation:fu .28s ease}
 @keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* Active nav label */
@@ -45,7 +46,8 @@ input[type="radio"].pr{display:none}
 #r-collab:checked~.layout label[for="r-collab"],
 #r-mood:checked~.layout label[for="r-mood"],
 #r-vault:checked~.layout label[for="r-vault"],
-#r-contacts:checked~.layout label[for="r-contacts"]{background:var(--s2);color:var(--text)}
+#r-contacts:checked~.layout label[for="r-contacts"],
+#r-hub:checked~.layout label[for="r-hub"]{background:var(--s2);color:var(--text)}
 #r-dash:checked~.layout label[for="r-dash"]::before,
 #r-tasks:checked~.layout label[for="r-tasks"]::before,
 #r-inv:checked~.layout label[for="r-inv"]::before,
@@ -56,7 +58,8 @@ input[type="radio"].pr{display:none}
 #r-collab:checked~.layout label[for="r-collab"]::before,
 #r-mood:checked~.layout label[for="r-mood"]::before,
 #r-vault:checked~.layout label[for="r-vault"]::before,
-#r-contacts:checked~.layout label[for="r-contacts"]::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:16px;background:var(--text);border-radius:0 3px 3px 0}
+#r-contacts:checked~.layout label[for="r-contacts"]::before,
+#r-hub:checked~.layout label[for="r-hub"]::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:16px;background:var(--text);border-radius:0 3px 3px 0}
 
 /* SIDEBAR */
 .sidebar{width:232px;min-width:232px;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:20px 0 14px;height:100vh;overflow-y:auto}
@@ -265,9 +268,40 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
 /* BREATHING — logo & live dot */
 @keyframes breathe{0%,100%{opacity:.65}50%{opacity:1}}
 @keyframes breathe-gold{0%,100%{text-shadow:0 0 0 rgba(201,169,110,0)}50%{text-shadow:0 0 16px rgba(201,169,110,.3)}}
-.lm{animation:breathe 4s ease-in-out infinite}
+.lm{animation:breathe 4s ease-in-out infinite;overflow:hidden;background:#f0ede8!important;border:none!important;padding:0!important}
+.lm img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* BRAND QUOTE BANNER */
+.brand-quote{padding:16px 22px;background:linear-gradient(135deg,#0d0d0d 0%,#111 100%);border:1px solid #1e1e1e;border-radius:14px;margin-bottom:20px;position:relative;overflow:hidden}
+.brand-quote::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,transparent,var(--gold),transparent)}
+.brand-quote-text{font-size:14px;font-weight:300;color:var(--text);letter-spacing:-.2px;line-height:1.5;font-style:italic}
+.brand-quote-author{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.18em;font-weight:700;margin-top:6px}
+
+/* GMAIL + DRIVE HUB */
+.hub-link{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:15px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;text-decoration:none;color:inherit;margin-bottom:10px}
+.hub-link:hover{border-color:#333;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.hub-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.inbox-row{display:flex;align-items:flex-start;gap:9px;padding:10px 13px;background:var(--s2);border:1px solid var(--border);border-radius:8px;margin-bottom:6px;position:relative;overflow:hidden;cursor:pointer;transition:all .15s}
+.inbox-row:hover{background:#1d1d1d;border-color:#333}
+.inbox-row.priority::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2.5px;background:#f87171}
+.inbox-row.client::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2.5px;background:var(--gold)}
+.inbox-row.done{opacity:.4}
+.inbox-from{font-size:12.5px;font-weight:600;color:var(--text);line-height:1.3}
+.inbox-subj{font-size:11.5px;color:var(--text2);margin-top:2px;line-height:1.3}
+.inbox-time{font-size:10px;color:var(--text3);white-space:nowrap;margin-left:auto;flex-shrink:0}
+.drive-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.drive-file{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:13px 15px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .18s;text-decoration:none;color:inherit}
+.drive-file:hover{border-color:#333;transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.drive-file-icon{font-size:20px;flex-shrink:0}
+.drive-file-name{font-size:12px;font-weight:500;color:var(--text);line-height:1.3}
+.drive-file-meta{font-size:10px;color:var(--text3);margin-top:2px}
+
+/* MOMENTUM WIDGET */
+.momentum-block{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:20px 22px;position:relative;overflow:hidden;margin-bottom:16px}
+.momentum-block::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,169,110,.03) 0%,transparent 60%);pointer-events:none}
 .dot-live{animation:dot-pulse 2.2s ease-in-out infinite!important}
 @keyframes dot-pulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.5);transform:scale(1)}50%{box-shadow:0 0 0 5px rgba(74,222,128,0);transform:scale(1.15)}}
+@keyframes prog-fill{from{width:0}to{width:76.4%}}
 
 /* COUNTDOWN GOLD BREATHING */
 .cd-num{animation:breathe-gold 3s ease-in-out infinite}
@@ -502,7 +536,7 @@ label.nl:hover{transform:translateX(2px)}
 
 <div id="intro" onclick="dismissIntro()">
   <div class="intro-inner">
-    <div class="intro-line intro-brand">SD</div>
+    <img src="https://cdn.shopify.com/s/files/1/0908/6124/0705/files/logo_squared.png?v=1753208550" alt="SD" style="width:72px;height:72px;object-fit:contain;margin-bottom:24px;animation:iup .8s ease .1s both;filter:invert(0)" />
     <div class="intro-line intro-title">No Noise, Just Presence.</div>
     <div class="intro-line intro-sub">delye.co &nbsp;·&nbsp; Barcelona, 2026</div>
     <div class="intro-bar"><div class="intro-bar-fill" id="intro-fill"></div></div>
@@ -528,13 +562,14 @@ label.nl:hover{transform:translateX(2px)}
 <input type="radio" class="pr" name="p" id="r-mood" />
 <input type="radio" class="pr" name="p" id="r-vault" />
 <input type="radio" class="pr" name="p" id="r-contacts" />
+<input type="radio" class="pr" name="p" id="r-hub" />
 
 <div class="layout">
 
 <!-- ══ SIDEBAR ══ -->
 <aside class="sidebar">
   <div class="logo">
-    <div class="lm">SD</div>
+    <div class="lm"><img src="https://cdn.shopify.com/s/files/1/0908/6124/0705/files/logo_squared.png?v=1753208550" alt="SD" /></div>
     <div>
       <div class="ln">Delyé</div>
       <div class="ls">delye.co</div>
@@ -566,6 +601,7 @@ label.nl:hover{transform:translateX(2px)}
     <div class="ngl">Gestión</div>
     <label class="nl" for="r-vault"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>Delyé Vault</label>
     <label class="nl" for="r-contacts"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7zM20 8v6M23 11h-6"/></svg>Contactos Pro</label>
+    <label class="nl" for="r-hub"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>Gmail & Drive</label>
   </div>
 
   <div class="sb-bottom">
@@ -588,6 +624,32 @@ label.nl:hover{transform:translateX(2px)}
       <div style="font-size:12px;color:var(--text2)" id="greeting-sub">Lunes 23 de mayo, 2026 · Delyé Admin</div>
     </div>
     <div class="shopify-live"><div class="dot-live"></div>Shopify Live · delye.co</div>
+  </div>
+
+  <!-- BRAND QUOTE -->
+  <div class="brand-quote" id="brand-quote">
+    <div class="brand-quote-text" id="bq-text">"No Noise, Just Presence."</div>
+    <div class="brand-quote-author" id="bq-author">Delyé · Saints Delyé Studio</div>
+  </div>
+
+  <!-- MOMENTUM WIDGET -->
+  <div class="momentum-block">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+      <div>
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.15em;font-weight:700;margin-bottom:5px">Momentum de Marca</div>
+        <div style="font-size:22px;font-weight:700;letter-spacing:-.5px;color:var(--text)">€114,591 <span style="font-size:13px;color:var(--green);font-weight:500">↑ creciendo</span></div>
+        <div style="font-size:11px;color:var(--text2);margin-top:3px">730 pedidos · AOV €141.62 · Mejor mes: Nov 2025</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">Próximo Hito</div>
+        <div style="font-size:16px;font-weight:700;color:var(--gold)">€150K</div>
+        <div style="font-size:10px;color:var(--text2);margin-top:2px">Faltan €35,409</div>
+      </div>
+    </div>
+    <div style="background:var(--s2);border-radius:99px;height:5px;overflow:hidden">
+      <div style="width:76.4%;height:100%;background:linear-gradient(90deg,var(--gold),#f0ede8);border-radius:99px;animation:prog-fill .8s cubic-bezier(.16,1,.3,1) .3s both"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:9.5px;color:var(--text3)"><span>€0</span><span style="color:var(--text2)">76.4% — casi.</span><span>€150K</span></div>
   </div>
 
   <!-- CAMPAIGN HERO STRIP — fotos reales de shooting Delyé -->
@@ -1054,6 +1116,93 @@ label.nl:hover{transform:translateX(2px)}
   <div class="contact-grid" id="cgrid"></div>
 </div>
 
+<!-- ─── GMAIL & DRIVE HUB ─── -->
+<div id="p-hub" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px">
+    <div>
+      <div class="ptitle">Gmail & Drive</div>
+      <div class="psub" style="margin-bottom:0">Correos pendientes de respuesta + acceso rápido a Google Drive</div>
+    </div>
+    <button class="btn bw" onclick="openHubModal()">+ Añadir email pendiente</button>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <!-- LEFT: GMAIL -->
+    <div>
+      <!-- Quick access links -->
+      <div class="card" style="margin-bottom:14px;padding:16px">
+        <div class="ct">Acceso Rápido Gmail</div>
+        <a class="hub-link" href="https://mail.google.com/mail/u/0/#inbox" target="_blank" rel="noopener">
+          <div class="hub-icon" style="background:#1e1e1e">📥</div>
+          <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">Bandeja de entrada</div><div style="font-size:11px;color:var(--text2);margin-top:1px">saintsdelyestudio@gmail.com</div></div>
+          <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--text3)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+        <a class="hub-link" href="https://mail.google.com/mail/u/0/#search/is%3Aunread+from%3A(cliente+OR+pedido+OR+order+OR+envio+OR+envío+OR+compra+OR+devoluc+OR+cambio)" target="_blank" rel="noopener">
+          <div class="hub-icon" style="background:rgba(248,113,113,.1)">🔴</div>
+          <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">Clientes sin responder</div><div style="font-size:11px;color:var(--text2);margin-top:1px">No leídos sobre pedidos, devoluciones, cambios</div></div>
+          <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--text3)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+        <a class="hub-link" href="https://mail.google.com/mail/u/0/#search/from%3Ashopify.com+OR+from%3Ashopifyemail.com" target="_blank" rel="noopener">
+          <div class="hub-icon" style="background:rgba(149,191,71,.1)">🛍</div>
+          <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">Notificaciones Shopify</div><div style="font-size:11px;color:var(--text2);margin-top:1px">Pedidos, pagos y alertas de la tienda</div></div>
+          <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--text3)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+        <a class="hub-link" href="https://mail.google.com/mail/u/0/#search/is%3Aunread" target="_blank" rel="noopener" style="margin-bottom:0">
+          <div class="hub-icon" style="background:rgba(96,165,250,.1)">📨</div>
+          <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">Todos los no leídos</div><div style="font-size:11px;color:var(--text2);margin-top:1px">Ver bandeja completa sin leer</div></div>
+          <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--text3)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+      </div>
+
+      <!-- Pending replies tracker -->
+      <div class="card" style="padding:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:13px">
+          <div class="ct" style="margin:0">Emails pendientes de respuesta</div>
+          <span class="badge br" id="hub-pending-count">0 pendientes</span>
+        </div>
+        <div id="hub-inbox-list">
+          <div style="text-align:center;padding:20px;color:var(--text3);font-size:12px">Sin emails pendientes · Pulsa "+ Añadir" para registrar uno</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: DRIVE -->
+    <div>
+      <div class="card" style="margin-bottom:14px;padding:16px">
+        <div class="ct">Google Drive — Saints Delyé Studio</div>
+        <a class="hub-link" href="https://drive.google.com/drive/u/0/my-drive" target="_blank" rel="noopener">
+          <div class="hub-icon" style="background:#1e1e1e;font-size:22px">▲</div>
+          <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">Mi Drive</div><div style="font-size:11px;color:var(--text2);margin-top:1px">saintsdelyestudio@gmail.com</div></div>
+          <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--text3)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+        <a class="hub-link" href="https://drive.google.com/drive/u/0/recent" target="_blank" rel="noopener">
+          <div class="hub-icon" style="background:#1e1e1e">🕐</div>
+          <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">Recientes</div><div style="font-size:11px;color:var(--text2);margin-top:1px">Últimos archivos abiertos</div></div>
+          <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--text3)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+        <a class="hub-link" href="https://drive.google.com/drive/u/0/shared-with-me" target="_blank" rel="noopener" style="margin-bottom:0">
+          <div class="hub-icon" style="background:#1e1e1e">👥</div>
+          <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">Compartidos conmigo</div><div style="font-size:11px;color:var(--text2);margin-top:1px">Archivos del equipo</div></div>
+          <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--text3)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+      </div>
+
+      <!-- Quick folders -->
+      <div class="card" style="padding:16px">
+        <div class="ct">Carpetas rápidas</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px" id="drive-folders">
+          <a class="drive-file" href="https://drive.google.com/drive/u/0/search?q=shooting" target="_blank" rel="noopener"><div class="drive-file-icon">📸</div><div><div class="drive-file-name">Shootings</div><div class="drive-file-meta">Fotos y ediciones</div></div></a>
+          <a class="drive-file" href="https://drive.google.com/drive/u/0/search?q=factura" target="_blank" rel="noopener"><div class="drive-file-icon">🧾</div><div><div class="drive-file-name">Facturas</div><div class="drive-file-meta">Contabilidad</div></div></a>
+          <a class="drive-file" href="https://drive.google.com/drive/u/0/search?q=drop+coleccion" target="_blank" rel="noopener"><div class="drive-file-icon">👕</div><div><div class="drive-file-name">Drops</div><div class="drive-file-meta">Assets colecciones</div></div></a>
+          <a class="drive-file" href="https://drive.google.com/drive/u/0/search?q=logo+branding" target="_blank" rel="noopener"><div class="drive-file-icon">🎨</div><div><div class="drive-file-name">Branding</div><div class="drive-file-meta">Logos y assets</div></div></a>
+          <a class="drive-file" href="https://drive.google.com/drive/u/0/search?q=proveedor+fabrica" target="_blank" rel="noopener"><div class="drive-file-icon">🏭</div><div><div class="drive-file-name">Proveedores</div><div class="drive-file-meta">Fichas y contratos</div></div></a>
+          <a class="drive-file" href="https://drive.google.com/drive/u/0/search?q=marketing+redes" target="_blank" rel="noopener"><div class="drive-file-icon">📱</div><div><div class="drive-file-name">Marketing</div><div class="drive-file-meta">Creatividades y copys</div></div></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </main>
 </div>
 
@@ -1139,6 +1288,33 @@ label.nl:hover{transform:translateX(2px)}
     <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px">
       <button class="btn bo2" onclick="closeContactModal()">Cancelar</button>
       <button class="btn bw" onclick="addContact()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- HUB MODAL -->
+<div class="moverlay" id="hmodal" onclick="closeHubModal()">
+  <div class="mbox" onclick="event.stopPropagation()">
+    <div style="font-size:15px;font-weight:650;margin-bottom:18px;display:flex;align-items:center;gap:8px">
+      <span style="font-size:17px">📧</span> Email pendiente de respuesta
+    </div>
+    <label class="flabel">Remitente / Cliente</label>
+    <input class="finput" id="he-from" placeholder="Ej: María García, info@cliente.com..." />
+    <label class="flabel">Asunto</label>
+    <input class="finput" id="he-subj" placeholder="Asunto del email..." />
+    <div class="frow">
+      <div><label class="flabel">Tipo</label><select class="finput" id="he-type">
+        <option value="client">Cliente</option>
+        <option value="priority">Urgente</option>
+        <option value="normal">Normal</option>
+      </select></div>
+      <div><label class="flabel">Fecha recibido</label><input class="finput" id="he-date" type="date" /></div>
+    </div>
+    <label class="flabel">Notas</label>
+    <input class="finput" id="he-notes" placeholder="Contexto adicional (opcional)..." />
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px">
+      <button class="btn bo2" onclick="closeHubModal()">Cancelar</button>
+      <button class="btn bw" onclick="addHubEmail()">Guardar</button>
     </div>
   </div>
 </div>
@@ -1910,6 +2086,74 @@ function renderContacts(){
 }
 
 // ═══════════════════════
+// GMAIL & DRIVE HUB
+// ═══════════════════════
+var HUB_KEY='delye_hub_v1';
+var hubEmails=(function(){try{var r=localStorage.getItem(HUB_KEY);if(r)return JSON.parse(r);}catch(e){}return [];})();
+function saveHub(){try{localStorage.setItem(HUB_KEY,JSON.stringify(hubEmails));}catch(e){}}
+function openHubModal(){
+  var d=new Date();
+  var pad=function(n){return n<10?'0'+n:n;};
+  document.getElementById('he-date').value=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+  document.getElementById('he-from').value='';
+  document.getElementById('he-subj').value='';
+  document.getElementById('he-notes').value='';
+  document.getElementById('he-type').value='client';
+  document.getElementById('hmodal').classList.add('open');
+  setTimeout(function(){document.getElementById('he-from').focus();},80);
+}
+function closeHubModal(){document.getElementById('hmodal').classList.remove('open');}
+function addHubEmail(){
+  var from=document.getElementById('he-from').value.trim();
+  var subj=document.getElementById('he-subj').value.trim();
+  if(!from||!subj){pushNotif('⚠️','Campo vacío','Rellena remitente y asunto.');return;}
+  hubEmails.unshift({id:Date.now(),from:from,subj:subj,type:document.getElementById('he-type').value,date:document.getElementById('he-date').value,notes:document.getElementById('he-notes').value.trim(),done:false});
+  saveHub();
+  renderHubInbox();
+  closeHubModal();
+  playDone();
+  pushNotif('📧','Email registrado','Pendiente de respuesta guardado.');
+}
+function toggleHubDone(id){
+  var e=hubEmails.find(function(x){return x.id===id;});
+  if(e){e.done=!e.done;saveHub();renderHubInbox();}
+}
+function deleteHubEmail(id){
+  hubEmails=hubEmails.filter(function(x){return x.id!==id;});
+  saveHub();renderHubInbox();
+}
+function renderHubInbox(){
+  var list=document.getElementById('hub-inbox-list');
+  var cntEl=document.getElementById('hub-pending-count');
+  if(!list)return;
+  var pending=hubEmails.filter(function(e){return !e.done;}).length;
+  if(cntEl)cntEl.textContent=pending+' pendiente'+(pending!==1?'s':'');
+  if(hubEmails.length===0){list.innerHTML='<div style="text-align:center;padding:20px;color:var(--text3);font-size:12px">Sin emails pendientes · Pulsa "+ Añadir" para registrar uno</div>';return;}
+  var months=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  function fmtDate(s){if(!s)return '';var p=s.split('-');return p[2]+' '+months[parseInt(p[1],10)-1];}
+  list.innerHTML=hubEmails.map(function(e){
+    var cls='inbox-row'+(e.type==='client'?' client':e.type==='priority'?' priority':'')+(e.done?' done':'');
+    var badge=e.type==='client'?'<span style="font-size:9px;background:rgba(201,169,110,.15);color:var(--gold);border-radius:4px;padding:1px 5px;font-weight:700">CLIENTE</span>':e.type==='priority'?'<span style="font-size:9px;background:rgba(248,113,113,.15);color:var(--red);border-radius:4px;padding:1px 5px;font-weight:700">URGENTE</span>':'';
+    var gmailLink='https://mail.google.com/mail/u/0/#search/from%3A'+encodeURIComponent(e.from);
+    return '<div class="'+cls+'" title="'+e.notes+'">'
+      +'<div style="flex:1;min-width:0">'
+        +'<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span class="inbox-from">'+e.from+'</span>'+badge+'</div>'
+        +'<div class="inbox-subj">'+e.subj+'</div>'
+        +(e.notes?'<div style="font-size:10px;color:var(--text3);margin-top:2px">'+e.notes+'</div>':'')
+      +'</div>'
+      +'<div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0">'
+        +'<span class="inbox-time">'+fmtDate(e.date)+'</span>'
+        +'<div style="display:flex;gap:4px">'
+          +'<a href="'+gmailLink+'" target="_blank" rel="noopener" style="font-size:10px;color:var(--text3);text-decoration:none;padding:2px 6px;border:1px solid var(--border);border-radius:4px;transition:all .15s" onmouseover="this.style.color=\'var(--text)\'" onmouseout="this.style.color=\'var(--text3)\'">Abrir</a>'
+          +'<button onclick="toggleHubDone('+e.id+')" style="font-size:10px;background:none;border:1px solid var(--border);border-radius:4px;color:'+(e.done?'var(--green)':'var(--text3)')+';cursor:pointer;padding:2px 6px;transition:all .15s">'+(e.done?'✓ Listo':'Marcar')+'</button>'
+          +'<button onclick="event.stopPropagation();deleteHubEmail('+e.id+')" style="font-size:10px;background:none;border:1px solid var(--border);border-radius:4px;color:var(--text3);cursor:pointer;padding:2px 6px;transition:all .15s" onmouseover="this.style.color=\'var(--red)\'" onmouseout="this.style.color=\'var(--text3)\'">✕</button>'
+        +'</div>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+}
+
+// ═══════════════════════
 // INIT
 // ═══════════════════════
 calSelected=TODAY_STR;
@@ -1923,6 +2167,7 @@ renderFinTable();
 renderMood('all');
 renderVault();
 renderContacts();
+renderHubInbox();
 setTimeout(initCharts,100);
 document.querySelectorAll('input[name="p"]').forEach(function(r){
   r.addEventListener('change',function(){setTimeout(initCharts,50);});
