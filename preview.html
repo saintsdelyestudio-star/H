@@ -226,19 +226,6 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
    DELYÉ PREMIUM LAYER — v3
    ═══════════════════════════════════════ */
 
-/* CUSTOM CURSOR */
-#cur,#cur-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);will-change:left,top}
-#cur{width:8px;height:8px;background:rgba(240,237,232,.95);transition:width .22s cubic-bezier(.34,1.56,.64,1),height .22s cubic-bezier(.34,1.56,.64,1),opacity .2s,background .2s}
-#cur-ring{width:32px;height:32px;border:1.5px solid rgba(240,237,232,.18);transition:width .35s cubic-bezier(.34,1.56,.64,1),height .35s cubic-bezier(.34,1.56,.64,1),border-color .25s,opacity .3s}
-body.cur-hover #cur{width:42px;height:42px;background:rgba(240,237,232,.08);border:1.5px solid rgba(240,237,232,.4)}
-body.cur-hover #cur-ring{width:0;height:0;opacity:0}
-body.cur-press #cur{width:6px;height:6px}
-body.cur-link #cur{width:14px;height:14px;background:var(--gold);opacity:.7}
-body.cur-link #cur-ring{border-color:rgba(201,169,110,.3)}
-
-/* HIDE SYSTEM CURSOR EVERYWHERE */
-*{cursor:none!important}
-
 /* CINEMATIC PAGE TRANSITIONS */
 @keyframes pg-in{from{opacity:0;transform:translateY(14px) scale(.987);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
 @keyframes pg-out{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-8px) scale(.99)}}
@@ -527,8 +514,6 @@ label.nl:hover{transform:translateX(2px)}
 <div class="bg-orb orb2"></div>
 <div class="bg-grain"></div>
 <canvas id="particle-canvas"></canvas>
-<div id="cur"></div>
-<div id="cur-ring"></div>
 <div id="ln-pill" onclick="toggleLateNight()"><span id="ln-icon">●</span> <span id="ln-txt">Late Night</span></div>
 <div id="notif-stack"></div>
 
@@ -1942,31 +1927,6 @@ setTimeout(initCharts,100);
 document.querySelectorAll('input[name="p"]').forEach(function(r){
   r.addEventListener('change',function(){setTimeout(initCharts,50);});
 });
-
-// ═══════════════════════
-// PREMIUM LAYER — CUSTOM CURSOR
-// ═══════════════════════
-(function(){
-  var cur=document.getElementById('cur');
-  var ring=document.getElementById('cur-ring');
-  var mx=window.innerWidth/2,my=window.innerHeight/2;
-  var rx=mx,ry=my;
-  if(!cur||!ring)return;
-  document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
-  (function raf(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(raf);})();
-  document.addEventListener('mousedown',function(){document.body.classList.add('cur-press');});
-  document.addEventListener('mouseup',function(){document.body.classList.remove('cur-press');});
-  function setHover(){document.body.classList.add('cur-hover');}
-  function unsetHover(){document.body.classList.remove('cur-hover');}
-  function setLink(){document.body.classList.add('cur-link');}
-  function unsetLink(){document.body.classList.remove('cur-link');}
-  document.addEventListener('mouseover',function(e){
-    var t=e.target.closest('button,label,.btn,.metric,.card,.ti,.cc,.vc,.act-item');
-    var l=e.target.closest('a');
-    if(t)setHover();else unsetHover();
-    if(l)setLink();else unsetLink();
-  });
-})();
 
 // ═══════════════════════
 // MAGNETIC BUTTONS
